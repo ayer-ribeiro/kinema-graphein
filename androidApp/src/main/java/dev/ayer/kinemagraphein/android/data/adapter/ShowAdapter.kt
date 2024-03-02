@@ -3,8 +3,8 @@ package dev.ayer.kinemagraphein.android.data.adapter
 import dev.ayer.kinemagraphein.android.data.dto.SeasonsEmbedModel
 import dev.ayer.kinemagraphein.android.data.dto.ShowModelBase
 import dev.ayer.kinemagraphein.android.data.dto.ShowModelComplete
-import dev.ayer.kinemagraphein.android.entity.media.Season
-import dev.ayer.kinemagraphein.android.entity.media.Show
+import dev.ayer.kinemagraphein.entity.media.Season
+import dev.ayer.kinemagraphein.entity.media.Show
 
 fun ShowModelBase.toShow() = Show(
     id = id.toString(),

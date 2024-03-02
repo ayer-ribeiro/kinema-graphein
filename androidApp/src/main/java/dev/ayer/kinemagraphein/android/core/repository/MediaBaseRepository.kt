@@ -1,6 +1,6 @@
 package dev.ayer.kinemagraphein.android.core.repository
 
-import dev.ayer.kinemagraphein.android.entity.media.MediaBaseData
+import dev.ayer.kinemagraphein.entity.media.MediaBaseData
 import kotlinx.coroutines.flow.Flow
 
 interface MediaBaseRepository {

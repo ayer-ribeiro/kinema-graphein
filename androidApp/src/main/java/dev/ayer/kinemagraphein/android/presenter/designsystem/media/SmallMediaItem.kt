@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import dev.ayer.kinemagraphein.android.entity.media.MediaBaseData
+import dev.ayer.kinemagraphein.entity.media.MediaBaseData
 import dev.ayer.kinemagraphein.android.presenter.designsystem.favorite.FavoriteIcon
 
 @Composable

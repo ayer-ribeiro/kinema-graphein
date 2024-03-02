@@ -48,8 +48,8 @@ import coil.request.ImageRequest
 import dev.ayer.kinemagraphein.android.di.repositoriesModule
 import dev.ayer.kinemagraphein.android.di.useCaseModules
 import dev.ayer.kinemagraphein.android.di.viewModelModules
-import dev.ayer.kinemagraphein.android.entity.media.Episode
-import dev.ayer.kinemagraphein.android.entity.media.Show
+import dev.ayer.kinemagraphein.entity.media.Episode
+import dev.ayer.kinemagraphein.entity.media.Show
 import dev.ayer.kinemagraphein.android.presenter.designsystem.Header
 import dev.ayer.kinemagraphein.android.presenter.designsystem.LoadingProgress
 import dev.ayer.kinemagraphein.android.presenter.designsystem.text.HtmlText
@@ -166,12 +166,13 @@ private fun EpisodeInfo(episode: Episode) {
             )
         }
 
-        if (episode.summary.isNullOrBlank()) {
+        val summary = episode.summary
+        if (summary.isNullOrBlank()) {
             return
         }
 
         HtmlText(
-            text = episode.summary,
+            text = summary,
             maxLines = 2,
             minLines = 2,
             color = Grey500,

@@ -1,9 +1,9 @@
 package dev.ayer.kinemagraphein.android.mock
 
-import dev.ayer.kinemagraphein.android.entity.media.Episode
-import dev.ayer.kinemagraphein.android.entity.media.Season
-import dev.ayer.kinemagraphein.android.entity.media.Show
-import dev.ayer.kinemagraphein.android.entity.time.Schedule
+import dev.ayer.kinemagraphein.entity.media.Episode
+import dev.ayer.kinemagraphein.entity.media.Season
+import dev.ayer.kinemagraphein.entity.media.Show
+import dev.ayer.kinemagraphein.entity.time.Schedule
 
 val underTheDomeMediaMock
     get() = Show(

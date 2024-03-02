@@ -3,7 +3,7 @@ package dev.ayer.kinemagraphein.android.data.repository
 import dev.ayer.kinemagraphein.android.core.repository.EpisodeRepository
 import dev.ayer.kinemagraphein.android.data.adapter.toEpisode
 import dev.ayer.kinemagraphein.android.data.sources.RetrofitApiService
-import dev.ayer.kinemagraphein.android.entity.media.Episode
+import dev.ayer.kinemagraphein.entity.media.Episode
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.core.component.KoinComponent

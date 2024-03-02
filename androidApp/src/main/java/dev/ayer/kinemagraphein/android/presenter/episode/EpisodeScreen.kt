@@ -21,7 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import dev.ayer.kinemagraphein.android.di.repositoriesModule
 import dev.ayer.kinemagraphein.android.di.useCaseModules
 import dev.ayer.kinemagraphein.android.di.viewModelModules
-import dev.ayer.kinemagraphein.android.entity.media.Episode
+import dev.ayer.kinemagraphein.entity.media.Episode
 import dev.ayer.kinemagraphein.android.presenter.designsystem.Header
 import dev.ayer.kinemagraphein.android.presenter.designsystem.text.HtmlText
 import dev.ayer.kinemagraphein.android.presenter.theme.KinemaGrapheinTheme

@@ -1,6 +1,6 @@
 package dev.ayer.kinemagraphein.android.core.repository
 
-import dev.ayer.kinemagraphein.android.entity.media.Episode
+import dev.ayer.kinemagraphein.entity.media.Episode
 import kotlinx.coroutines.flow.Flow
 
 interface EpisodeRepository {

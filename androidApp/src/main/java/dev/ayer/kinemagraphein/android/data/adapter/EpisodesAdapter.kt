@@ -1,7 +1,7 @@
 package dev.ayer.kinemagraphein.android.data.adapter
 
 import dev.ayer.kinemagraphein.android.data.dto.EpisodeModel
-import dev.ayer.kinemagraphein.android.entity.media.Episode
+import dev.ayer.kinemagraphein.entity.media.Episode
 
 fun EpisodeModel.toEpisode(): Episode = Episode(
     id = id,

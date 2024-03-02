@@ -1,4 +1,4 @@
-package dev.ayer.kinemagraphein.android.entity.time
+package dev.ayer.kinemagraphein.entity.time
 
 data class Time(
     val hour: Int,

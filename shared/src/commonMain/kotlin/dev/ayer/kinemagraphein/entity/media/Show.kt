@@ -1,6 +1,6 @@
-package dev.ayer.kinemagraphein.android.entity.media
+package dev.ayer.kinemagraphein.entity.media
 
-import dev.ayer.kinemagraphein.android.entity.time.Schedule
+import dev.ayer.kinemagraphein.entity.time.Schedule
 
 data class Show(
     override val id: String,

@@ -10,7 +10,7 @@ import dev.ayer.kinemagraphein.android.data.sources.RetrofitApiService
 import dev.ayer.kinemagraphein.android.data.sources.room.AppRoomDatabase
 import dev.ayer.kinemagraphein.android.data.sources.room.entity.FavoritesTable
 import dev.ayer.kinemagraphein.android.data.sources.room.entity.RecentTable
-import dev.ayer.kinemagraphein.android.entity.media.MediaBaseData
+import dev.ayer.kinemagraphein.entity.media.MediaBaseData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

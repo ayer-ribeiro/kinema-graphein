@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
-import dev.ayer.kinemagraphein.android.entity.media.MediaBaseData
+import dev.ayer.kinemagraphein.entity.media.MediaBaseData
 import dev.ayer.kinemagraphein.android.presenter.designsystem.favorite.FavoriteIcon
 
 @OptIn(ExperimentalMaterial3Api::class)

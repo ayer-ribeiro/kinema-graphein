@@ -1,6 +1,6 @@
 package dev.ayer.kinemagraphein.android.presenter.home
 
-import dev.ayer.kinemagraphein.android.entity.media.MediaBaseData
+import dev.ayer.kinemagraphein.entity.media.MediaBaseData
 import dev.ayer.kinemagraphein.android.presenter.actions.ViewIntentActions
 
 sealed class HomeActionsIntent: ViewIntentActions {

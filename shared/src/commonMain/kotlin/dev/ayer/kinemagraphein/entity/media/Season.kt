@@ -1,4 +1,4 @@
-package dev.ayer.kinemagraphein.android.entity.media
+package dev.ayer.kinemagraphein.entity.media
 
 
 data class Season(

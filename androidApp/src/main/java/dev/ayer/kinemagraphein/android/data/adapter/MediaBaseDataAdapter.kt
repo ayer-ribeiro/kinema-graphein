@@ -3,7 +3,7 @@ package dev.ayer.kinemagraphein.android.data.adapter
 import dev.ayer.kinemagraphein.android.data.dto.ShowModelBase
 import dev.ayer.kinemagraphein.android.data.sources.room.entity.FavoritesTable
 import dev.ayer.kinemagraphein.android.data.sources.room.entity.RecentTable
-import dev.ayer.kinemagraphein.android.entity.media.MediaBaseData
+import dev.ayer.kinemagraphein.entity.media.MediaBaseData
 
 private data class MediaBaseDataImpl(
     override val id: String,

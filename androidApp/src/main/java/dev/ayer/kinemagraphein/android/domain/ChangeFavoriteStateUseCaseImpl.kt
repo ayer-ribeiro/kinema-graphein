@@ -2,7 +2,7 @@ package dev.ayer.kinemagraphein.android.domain
 
 import dev.ayer.kinemagraphein.android.core.repository.MediaBaseRepository
 import dev.ayer.kinemagraphein.android.core.usecase.ChangeFavoriteStateUseCase
-import dev.ayer.kinemagraphein.android.entity.media.MediaBaseData
+import dev.ayer.kinemagraphein.entity.media.MediaBaseData
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 

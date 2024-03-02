@@ -40,7 +40,7 @@ import androidx.navigation.compose.rememberNavController
 import dev.ayer.kinemagraphein.android.di.repositoriesModule
 import dev.ayer.kinemagraphein.android.di.useCaseModules
 import dev.ayer.kinemagraphein.android.di.viewModelModules
-import dev.ayer.kinemagraphein.android.entity.media.MediaBaseData
+import dev.ayer.kinemagraphein.entity.media.MediaBaseData
 import dev.ayer.kinemagraphein.android.presenter.designsystem.LoadingProgress
 import dev.ayer.kinemagraphein.android.presenter.designsystem.media.MediaGridSection
 import dev.ayer.kinemagraphein.android.presenter.designsystem.media.MediaItemCover
