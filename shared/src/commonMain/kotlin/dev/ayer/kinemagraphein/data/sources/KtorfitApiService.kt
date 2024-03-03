@@ -9,7 +9,7 @@ import dev.ayer.kinemagraphein.data.dto.ShowModelBase
 import dev.ayer.kinemagraphein.data.dto.ShowModelComplete
 
 
-interface RetrofitApiService {
+interface KtorfitApiService {
     @GET("search/shows")
     suspend fun search(
         @Query("q") query: String? = null

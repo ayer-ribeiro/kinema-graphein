@@ -66,10 +66,6 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.lifecycle.extensions)
 
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.moshi)
-    implementation(libs.okhttp3.logging.interceptor)
-
     implementation(libs.coil.compose)
 
     implementation(libs.room.runtime)

@@ -6,7 +6,7 @@ import dev.ayer.kinemagraphein.android.data.adapter.toMediaBaseData
 import dev.ayer.kinemagraphein.data.adapter.toMediaBaseData
 import dev.ayer.kinemagraphein.android.data.adapter.toRecentTable
 import dev.ayer.kinemagraphein.data.dto.ShowModelBase
-import dev.ayer.kinemagraphein.data.sources.RetrofitApiService
+import dev.ayer.kinemagraphein.data.sources.KtorfitApiService
 import dev.ayer.kinemagraphein.android.data.sources.room.AppRoomDatabase
 import dev.ayer.kinemagraphein.android.data.sources.room.entity.FavoritesTable
 import dev.ayer.kinemagraphein.android.data.sources.room.entity.RecentTable
@@ -22,14 +22,14 @@ import java.util.Date
 
 class MediaBaseRepositoryImpl: MediaBaseRepository, KoinComponent {
 
-    private val retrofitApiService: RetrofitApiService by inject()
+    private val ktorfitApiService: KtorfitApiService by inject()
     private val database: AppRoomDatabase by inject()
 
     private val showListState = MutableStateFlow<List<MediaBaseData>>(emptyList())
     private var currentPage = 1
 
     override suspend fun searchMedia(query: String): Flow<List<MediaBaseData>> {
-        val apiResult = retrofitApiService.search(query) ?: emptyList()
+        val apiResult = ktorfitApiService.search(query) ?: emptyList()
         val result = apiResult.map {
             val tvShow = it.show
             tvShow.toMediaBaseData(isFavorite = tvShow.isFavorite())
@@ -66,7 +66,7 @@ class MediaBaseRepositoryImpl: MediaBaseRepository, KoinComponent {
     }
 
     override suspend fun loadMoreShowItems(): StateFlow<List<MediaBaseData>> {
-        val apiResult = retrofitApiService.getShows(page = currentPage) ?: emptyList()
+        val apiResult = ktorfitApiService.getShows(page = currentPage) ?: emptyList()
         val result = apiResult.map {
             it.toMediaBaseData(isFavorite = it.isFavorite())
         }
