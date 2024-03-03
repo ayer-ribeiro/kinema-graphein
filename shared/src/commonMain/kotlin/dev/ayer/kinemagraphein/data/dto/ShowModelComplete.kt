@@ -1,7 +1,9 @@
-package dev.ayer.kinemagraphein.android.data.dto
+package dev.ayer.kinemagraphein.data.dto
 
-import com.squareup.moshi.Json
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ShowModelComplete(
     val id: Int,
     val name: String,
@@ -10,5 +12,5 @@ data class ShowModelComplete(
     val image: ImageDto?,
     val summary: String,
     val premiered: String,
-    val _embedded: SeasonsEmbedModel?
+    @SerialName("_embedded") val embedded: SeasonsEmbedModel? = null
 )

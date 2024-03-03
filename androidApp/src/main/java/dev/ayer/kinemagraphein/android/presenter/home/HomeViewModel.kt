@@ -7,7 +7,7 @@ import dev.ayer.kinemagraphein.core.usecase.LoadFavoritesUseCase
 import dev.ayer.kinemagraphein.core.usecase.LoadMoreShowItemsUseCase
 import dev.ayer.kinemagraphein.core.usecase.LoadRecentUseCase
 import dev.ayer.kinemagraphein.core.usecase.SearchMediaUseCase
-import dev.ayer.kinemagraphein.android.data.adapter.withNewFavoriteState
+import dev.ayer.kinemagraphein.data.adapter.withNewFavoriteState
 import dev.ayer.kinemagraphein.entity.media.MediaBaseData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow

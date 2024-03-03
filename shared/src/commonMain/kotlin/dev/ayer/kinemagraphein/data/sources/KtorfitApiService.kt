@@ -1,12 +1,12 @@
-package dev.ayer.kinemagraphein.android.data.sources
+package dev.ayer.kinemagraphein.data.sources
 
-import dev.ayer.kinemagraphein.android.data.dto.EpisodeModel
-import dev.ayer.kinemagraphein.android.data.dto.SearchResult
-import dev.ayer.kinemagraphein.android.data.dto.ShowModelBase
-import dev.ayer.kinemagraphein.android.data.dto.ShowModelComplete
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Path
+import de.jensklingenberg.ktorfit.http.Query
+import dev.ayer.kinemagraphein.data.dto.EpisodeModel
+import dev.ayer.kinemagraphein.data.dto.SearchResult
+import dev.ayer.kinemagraphein.data.dto.ShowModelBase
+import dev.ayer.kinemagraphein.data.dto.ShowModelComplete
 
 
 interface RetrofitApiService {
@@ -30,5 +30,5 @@ interface RetrofitApiService {
         @Path("showId") showId: String,
         @Query("season") season: Int,
         @Query("number") number: Int
-    ): EpisodeModel
+    ): EpisodeModel?
 }

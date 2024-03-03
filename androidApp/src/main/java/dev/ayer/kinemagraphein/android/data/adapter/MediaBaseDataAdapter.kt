@@ -1,6 +1,5 @@
 package dev.ayer.kinemagraphein.android.data.adapter
 
-import dev.ayer.kinemagraphein.android.data.dto.ShowModelBase
 import dev.ayer.kinemagraphein.android.data.sources.room.entity.FavoritesTable
 import dev.ayer.kinemagraphein.android.data.sources.room.entity.RecentTable
 import dev.ayer.kinemagraphein.entity.media.MediaBaseData
@@ -13,15 +12,6 @@ private data class MediaBaseDataImpl(
     override val originalImageUrl: String?,
     override val summary: String?
 ) : MediaBaseData
-
-fun ShowModelBase.toMediaBaseData(isFavorite: Boolean): MediaBaseData = MediaBaseDataImpl(
-    id = id.toString(),
-    name = name,
-    isFavorite = isFavorite,
-    mediumImageUrl = image?.medium,
-    originalImageUrl = image?.original,
-    summary = summary
-)
 
 fun FavoritesTable.toMediaBaseData(isFavorite: Boolean): MediaBaseData = MediaBaseDataImpl(
     id = id,
@@ -40,14 +30,3 @@ fun RecentTable.toMediaBaseData(isFavorite: Boolean) : MediaBaseData = MediaBase
     originalImageUrl = this.originalImageUrl,
     summary = this.summary
 )
-
-fun MediaBaseData.withNewFavoriteState(isFavorite: Boolean): MediaBaseData {
-    return MediaBaseDataImpl(
-        id = id,
-        name = name,
-        isFavorite = isFavorite,
-        mediumImageUrl = mediumImageUrl,
-        originalImageUrl = originalImageUrl,
-        summary = summary
-    )
-}

@@ -1,8 +1,8 @@
 package dev.ayer.kinemagraphein.android.data.repository
 
 import dev.ayer.kinemagraphein.core.repository.EpisodeRepository
-import dev.ayer.kinemagraphein.android.data.adapter.toEpisode
-import dev.ayer.kinemagraphein.android.data.sources.RetrofitApiService
+import dev.ayer.kinemagraphein.data.adapter.toEpisode
+import dev.ayer.kinemagraphein.data.sources.RetrofitApiService
 import dev.ayer.kinemagraphein.entity.media.Episode
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +20,7 @@ class EpisodeRepositoryImpl: EpisodeRepository, KoinComponent {
             showId = showId,
             season = season,
             number = number
-        ).toEpisode()
+        )?.toEpisode()
 
         episodeStateFlow.emit(result)
         return episodeStateFlow

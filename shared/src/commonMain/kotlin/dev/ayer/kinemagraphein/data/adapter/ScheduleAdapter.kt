@@ -1,6 +1,6 @@
-package dev.ayer.kinemagraphein.android.data.adapter
+package dev.ayer.kinemagraphein.data.adapter
 
-import dev.ayer.kinemagraphein.android.data.dto.ScheduleModel
+import dev.ayer.kinemagraphein.data.dto.ScheduleModel
 import dev.ayer.kinemagraphein.entity.time.Schedule
 
 fun ScheduleModel.toSchedule(): Schedule {

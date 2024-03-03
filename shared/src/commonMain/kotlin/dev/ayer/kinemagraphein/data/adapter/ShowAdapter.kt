@@ -1,8 +1,8 @@
-package dev.ayer.kinemagraphein.android.data.adapter
+package dev.ayer.kinemagraphein.data.adapter
 
-import dev.ayer.kinemagraphein.android.data.dto.SeasonsEmbedModel
-import dev.ayer.kinemagraphein.android.data.dto.ShowModelBase
-import dev.ayer.kinemagraphein.android.data.dto.ShowModelComplete
+import dev.ayer.kinemagraphein.data.dto.SeasonsEmbedModel
+import dev.ayer.kinemagraphein.data.dto.ShowModelBase
+import dev.ayer.kinemagraphein.data.dto.ShowModelComplete
 import dev.ayer.kinemagraphein.entity.media.Season
 import dev.ayer.kinemagraphein.entity.media.Show
 
@@ -17,7 +17,6 @@ fun ShowModelBase.toShow() = Show(
     seasons = emptyList(),
     schedule = schedule.toSchedule(),
     releaseDate = premiered
-
 )
 
 
@@ -44,7 +43,7 @@ fun ShowModelComplete.toShow() = Show(
     originalImageUrl = image?.original,
     summary = summary,
     genres = genres,
-    seasons = _embedded?.toSeasonList() ?: emptyList(),
+    seasons = embedded?.toSeasonList() ?: emptyList(),
     schedule = schedule.toSchedule(),
     releaseDate = premiered
 )
