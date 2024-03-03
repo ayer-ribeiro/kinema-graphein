@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class FetchEpisodeDataUseCaseImpl: FetchEpisodeDataUseCase, KoinComponent {
+internal class FetchEpisodeDataUseCaseImpl: FetchEpisodeDataUseCase, KoinComponent {
 
     private val episodeRepository: EpisodeRepository by inject()
 

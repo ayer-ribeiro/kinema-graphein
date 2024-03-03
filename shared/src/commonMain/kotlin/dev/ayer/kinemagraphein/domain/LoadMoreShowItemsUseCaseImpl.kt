@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class LoadMoreShowItemsUseCaseImpl: LoadMoreShowItemsUseCase, KoinComponent {
+internal class LoadMoreShowItemsUseCaseImpl: LoadMoreShowItemsUseCase, KoinComponent {
 
     private val mediaBaseRepository: MediaBaseRepository by inject()
 

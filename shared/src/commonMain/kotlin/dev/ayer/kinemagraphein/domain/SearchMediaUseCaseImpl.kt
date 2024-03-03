@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class SearchMediaUseCaseImpl: SearchMediaUseCase, KoinComponent {
+internal class SearchMediaUseCaseImpl: SearchMediaUseCase, KoinComponent {
 
     private val mediaBaseRepository: MediaBaseRepository by inject()
 

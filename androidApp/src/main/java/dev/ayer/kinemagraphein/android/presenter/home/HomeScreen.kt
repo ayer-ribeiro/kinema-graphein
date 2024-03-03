@@ -37,10 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import dev.ayer.kinemagraphein.android.di.repositoriesModule
-import dev.ayer.kinemagraphein.android.di.useCaseModules
-import dev.ayer.kinemagraphein.android.di.viewModelModules
-import dev.ayer.kinemagraphein.entity.media.MediaBaseData
+import dev.ayer.kinemagraphein.android.di.appModules
 import dev.ayer.kinemagraphein.android.presenter.designsystem.LoadingProgress
 import dev.ayer.kinemagraphein.android.presenter.designsystem.media.MediaGridSection
 import dev.ayer.kinemagraphein.android.presenter.designsystem.media.MediaItemCover
@@ -48,6 +45,7 @@ import dev.ayer.kinemagraphein.android.presenter.designsystem.media.MediaRowSect
 import dev.ayer.kinemagraphein.android.presenter.designsystem.text.SectionTitle
 import dev.ayer.kinemagraphein.android.presenter.navigation.navigateSingleTopToSeries
 import dev.ayer.kinemagraphein.android.presenter.theme.KinemaGrapheinTheme
+import dev.ayer.kinemagraphein.entity.media.MediaBaseData
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.KoinApplication
 
@@ -290,13 +288,7 @@ private fun SearchClearIcon(
 )
 @Composable
 fun HomeScreenPreview() {
-    KoinApplication(application = {
-        modules(
-            viewModelModules,
-            repositoriesModule,
-            useCaseModules
-        )
-    }) {
+    KoinApplication(application = { modules(appModules) }) {
         KinemaGrapheinTheme {
             Surface(color = MaterialTheme.colorScheme.background) {
                 HomeScreen(navController = rememberNavController())

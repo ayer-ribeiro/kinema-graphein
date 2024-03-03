@@ -1,4 +1,4 @@
-package dev.ayer.kinemagraphein.android.di
+package dev.ayer.kinemagraphein.di
 
 import dev.ayer.kinemagraphein.core.usecase.ChangeFavoriteStateUseCase
 import dev.ayer.kinemagraphein.core.usecase.FetchEpisodeDataUseCase

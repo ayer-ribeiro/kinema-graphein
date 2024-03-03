@@ -6,7 +6,7 @@ import dev.ayer.kinemagraphein.entity.media.MediaBaseData
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class ChangeFavoriteStateUseCaseImpl: ChangeFavoriteStateUseCase, KoinComponent {
+internal class ChangeFavoriteStateUseCaseImpl: ChangeFavoriteStateUseCase, KoinComponent {
 
     private val mediaBaseRepository: MediaBaseRepository by inject()
 

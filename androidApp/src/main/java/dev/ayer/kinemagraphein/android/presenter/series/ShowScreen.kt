@@ -45,11 +45,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import dev.ayer.kinemagraphein.android.di.repositoriesModule
-import dev.ayer.kinemagraphein.android.di.useCaseModules
-import dev.ayer.kinemagraphein.android.di.viewModelModules
-import dev.ayer.kinemagraphein.entity.media.Episode
-import dev.ayer.kinemagraphein.entity.media.Show
+import dev.ayer.kinemagraphein.android.di.appModules
 import dev.ayer.kinemagraphein.android.presenter.designsystem.Header
 import dev.ayer.kinemagraphein.android.presenter.designsystem.LoadingProgress
 import dev.ayer.kinemagraphein.android.presenter.designsystem.text.HtmlText
@@ -58,6 +54,8 @@ import dev.ayer.kinemagraphein.android.presenter.navigation.navigateSingleTopEpi
 import dev.ayer.kinemagraphein.android.presenter.theme.Grey300
 import dev.ayer.kinemagraphein.android.presenter.theme.Grey500
 import dev.ayer.kinemagraphein.android.presenter.theme.KinemaGrapheinTheme
+import dev.ayer.kinemagraphein.entity.media.Episode
+import dev.ayer.kinemagraphein.entity.media.Show
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.KoinApplication
 import org.koin.core.parameter.parametersOf
@@ -281,13 +279,7 @@ private fun Schedule(show: Show) {
 )
 @Composable
 fun SeriesScreenPreview() {
-    KoinApplication(application = {
-        modules(
-            viewModelModules,
-            repositoriesModule,
-            useCaseModules
-        )
-    }) {
+    KoinApplication(application = { modules(appModules) }) {
         KinemaGrapheinTheme {
             Surface(color = MaterialTheme.colorScheme.background) {
                 ShowScreen(

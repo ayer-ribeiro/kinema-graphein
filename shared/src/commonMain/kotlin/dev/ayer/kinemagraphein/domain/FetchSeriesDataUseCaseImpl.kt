@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.firstOrNull
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class FetchSeriesDataUseCaseImpl: FetchSeriesDataUseCase, KoinComponent {
+internal class FetchSeriesDataUseCaseImpl: FetchSeriesDataUseCase, KoinComponent {
 
     private val showsRepository: ShowsRepository by inject()
     private val mediaBaseRepository: MediaBaseRepository by inject()

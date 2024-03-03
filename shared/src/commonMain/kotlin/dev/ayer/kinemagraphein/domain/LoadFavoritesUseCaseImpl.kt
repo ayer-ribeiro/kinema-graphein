@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class LoadFavoritesUseCaseImpl: LoadFavoritesUseCase, KoinComponent {
+internal class LoadFavoritesUseCaseImpl: LoadFavoritesUseCase, KoinComponent {
 
     private val mediaBaseRepository: MediaBaseRepository by inject()
 
