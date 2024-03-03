@@ -1,12 +1,12 @@
 package dev.ayer.kinemagraphein.android.di
 
-import dev.ayer.kinemagraphein.android.core.usecase.ChangeFavoriteStateUseCase
-import dev.ayer.kinemagraphein.android.core.usecase.FetchEpisodeDataUseCase
-import dev.ayer.kinemagraphein.android.core.usecase.FetchSeriesDataUseCase
-import dev.ayer.kinemagraphein.android.core.usecase.LoadFavoritesUseCase
-import dev.ayer.kinemagraphein.android.core.usecase.LoadRecentUseCase
-import dev.ayer.kinemagraphein.android.core.usecase.LoadMoreShowItemsUseCase
-import dev.ayer.kinemagraphein.android.core.usecase.SearchMediaUseCase
+import dev.ayer.kinemagraphein.core.usecase.ChangeFavoriteStateUseCase
+import dev.ayer.kinemagraphein.core.usecase.FetchEpisodeDataUseCase
+import dev.ayer.kinemagraphein.core.usecase.FetchSeriesDataUseCase
+import dev.ayer.kinemagraphein.core.usecase.LoadFavoritesUseCase
+import dev.ayer.kinemagraphein.core.usecase.LoadRecentUseCase
+import dev.ayer.kinemagraphein.core.usecase.LoadMoreShowItemsUseCase
+import dev.ayer.kinemagraphein.core.usecase.SearchMediaUseCase
 import dev.ayer.kinemagraphein.android.domain.ChangeFavoriteStateUseCaseImpl
 import dev.ayer.kinemagraphein.android.domain.FetchEpisodeDataUseCaseImpl
 import dev.ayer.kinemagraphein.android.domain.FetchSeriesDataUseCaseImpl

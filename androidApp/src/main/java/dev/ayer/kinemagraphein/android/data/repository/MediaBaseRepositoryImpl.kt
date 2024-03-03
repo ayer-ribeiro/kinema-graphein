@@ -1,6 +1,6 @@
 package dev.ayer.kinemagraphein.android.data.repository
 
-import dev.ayer.kinemagraphein.android.core.repository.MediaBaseRepository
+import dev.ayer.kinemagraphein.core.repository.MediaBaseRepository
 import dev.ayer.kinemagraphein.android.data.adapter.toFavoritesTable
 import dev.ayer.kinemagraphein.android.data.adapter.toMediaBaseData
 import dev.ayer.kinemagraphein.android.data.adapter.toRecentTable

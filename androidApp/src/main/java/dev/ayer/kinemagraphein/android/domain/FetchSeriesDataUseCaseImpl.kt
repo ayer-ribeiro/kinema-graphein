@@ -1,8 +1,8 @@
 package dev.ayer.kinemagraphein.android.domain
 
-import dev.ayer.kinemagraphein.android.core.repository.MediaBaseRepository
-import dev.ayer.kinemagraphein.android.core.repository.ShowsRepository
-import dev.ayer.kinemagraphein.android.core.usecase.FetchSeriesDataUseCase
+import dev.ayer.kinemagraphein.core.repository.MediaBaseRepository
+import dev.ayer.kinemagraphein.core.repository.ShowsRepository
+import dev.ayer.kinemagraphein.core.usecase.FetchSeriesDataUseCase
 import dev.ayer.kinemagraphein.entity.media.Show
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull

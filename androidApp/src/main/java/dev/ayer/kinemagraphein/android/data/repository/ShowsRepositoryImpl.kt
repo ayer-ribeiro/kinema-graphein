@@ -1,6 +1,6 @@
 package dev.ayer.kinemagraphein.android.data.repository
 
-import dev.ayer.kinemagraphein.android.core.repository.ShowsRepository
+import dev.ayer.kinemagraphein.core.repository.ShowsRepository
 import dev.ayer.kinemagraphein.android.data.adapter.toShow
 import dev.ayer.kinemagraphein.android.data.sources.RetrofitApiService
 import dev.ayer.kinemagraphein.entity.media.Show

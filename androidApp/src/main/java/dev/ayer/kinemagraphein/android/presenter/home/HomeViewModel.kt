@@ -2,11 +2,11 @@ package dev.ayer.kinemagraphein.android.presenter.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.ayer.kinemagraphein.android.core.usecase.ChangeFavoriteStateUseCase
-import dev.ayer.kinemagraphein.android.core.usecase.LoadFavoritesUseCase
-import dev.ayer.kinemagraphein.android.core.usecase.LoadMoreShowItemsUseCase
-import dev.ayer.kinemagraphein.android.core.usecase.LoadRecentUseCase
-import dev.ayer.kinemagraphein.android.core.usecase.SearchMediaUseCase
+import dev.ayer.kinemagraphein.core.usecase.ChangeFavoriteStateUseCase
+import dev.ayer.kinemagraphein.core.usecase.LoadFavoritesUseCase
+import dev.ayer.kinemagraphein.core.usecase.LoadMoreShowItemsUseCase
+import dev.ayer.kinemagraphein.core.usecase.LoadRecentUseCase
+import dev.ayer.kinemagraphein.core.usecase.SearchMediaUseCase
 import dev.ayer.kinemagraphein.android.data.adapter.withNewFavoriteState
 import dev.ayer.kinemagraphein.entity.media.MediaBaseData
 import kotlinx.coroutines.delay

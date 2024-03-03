@@ -2,7 +2,7 @@ package dev.ayer.kinemagraphein.android.presenter.series
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.ayer.kinemagraphein.android.core.usecase.FetchSeriesDataUseCase
+import dev.ayer.kinemagraphein.core.usecase.FetchSeriesDataUseCase
 import dev.ayer.kinemagraphein.android.presenter.home.HomeEvents
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -20,7 +20,7 @@ class ShowScreenViewModel(
     private val seriesId: String
 ): ViewModel(), KoinComponent {
 
-    val fetchSeriesData: dev.ayer.kinemagraphein.android.core.usecase.FetchSeriesDataUseCase by inject()
+    val fetchSeriesData: FetchSeriesDataUseCase by inject()
 
     private val emptyState get() = State(
         isLoading = false,

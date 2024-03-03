@@ -2,7 +2,7 @@ package dev.ayer.kinemagraphein.android.presenter.episode
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.ayer.kinemagraphein.android.core.usecase.FetchEpisodeDataUseCase
+import dev.ayer.kinemagraphein.core.usecase.FetchEpisodeDataUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.firstOrNull
@@ -18,7 +18,7 @@ class EpisodeViewModel(
     private val number: Int
 ): ViewModel(), KoinComponent {
 
-    private val fetchEpisodeData: dev.ayer.kinemagraphein.android.core.usecase.FetchEpisodeDataUseCase by inject()
+    private val fetchEpisodeData: FetchEpisodeDataUseCase by inject()
 
     private val emptyState get() = State(
         isLoading = false,

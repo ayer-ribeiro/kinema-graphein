@@ -18,7 +18,8 @@ coil-compose = "2.5.0"
 room = "2.6.1"
 junit = "4.13.2"
 mockito-core = "4.2.0"
-kotlinx-coroutines-test = "1.7.1"
+kotlinx-coroutines-test = "1.7.3"
+kotlinx-coroutines-core = "1.7.3"
 androidx-test-ext-junit = "1.1.5"
 androidx-test-espresso-core = "3.5.1"
 
@@ -30,6 +31,7 @@ compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref 
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines-core" }
 
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }

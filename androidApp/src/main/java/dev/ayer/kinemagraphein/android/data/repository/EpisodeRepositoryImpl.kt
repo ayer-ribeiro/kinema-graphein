@@ -1,6 +1,6 @@
 package dev.ayer.kinemagraphein.android.data.repository
 
-import dev.ayer.kinemagraphein.android.core.repository.EpisodeRepository
+import dev.ayer.kinemagraphein.core.repository.EpisodeRepository
 import dev.ayer.kinemagraphein.android.data.adapter.toEpisode
 import dev.ayer.kinemagraphein.android.data.sources.RetrofitApiService
 import dev.ayer.kinemagraphein.entity.media.Episode

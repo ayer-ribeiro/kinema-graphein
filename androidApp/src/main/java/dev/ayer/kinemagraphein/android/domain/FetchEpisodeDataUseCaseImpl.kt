@@ -1,7 +1,7 @@
 package dev.ayer.kinemagraphein.android.domain
 
-import dev.ayer.kinemagraphein.android.core.repository.EpisodeRepository
-import dev.ayer.kinemagraphein.android.core.usecase.FetchEpisodeDataUseCase
+import dev.ayer.kinemagraphein.core.repository.EpisodeRepository
+import dev.ayer.kinemagraphein.core.usecase.FetchEpisodeDataUseCase
 import dev.ayer.kinemagraphein.entity.media.Episode
 import kotlinx.coroutines.flow.Flow
 import org.koin.core.component.KoinComponent
