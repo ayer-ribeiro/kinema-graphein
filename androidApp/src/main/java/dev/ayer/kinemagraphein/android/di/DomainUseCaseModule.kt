@@ -7,13 +7,13 @@ import dev.ayer.kinemagraphein.core.usecase.LoadFavoritesUseCase
 import dev.ayer.kinemagraphein.core.usecase.LoadRecentUseCase
 import dev.ayer.kinemagraphein.core.usecase.LoadMoreShowItemsUseCase
 import dev.ayer.kinemagraphein.core.usecase.SearchMediaUseCase
-import dev.ayer.kinemagraphein.android.domain.ChangeFavoriteStateUseCaseImpl
-import dev.ayer.kinemagraphein.android.domain.FetchEpisodeDataUseCaseImpl
-import dev.ayer.kinemagraphein.android.domain.FetchSeriesDataUseCaseImpl
-import dev.ayer.kinemagraphein.android.domain.LoadFavoritesUseCaseImpl
-import dev.ayer.kinemagraphein.android.domain.LoadRecentUseCaseImpl
-import dev.ayer.kinemagraphein.android.domain.LoadMoreShowItemsUseCaseImpl
-import dev.ayer.kinemagraphein.android.domain.SearchMediaUseCaseImpl
+import dev.ayer.kinemagraphein.domain.ChangeFavoriteStateUseCaseImpl
+import dev.ayer.kinemagraphein.domain.FetchEpisodeDataUseCaseImpl
+import dev.ayer.kinemagraphein.domain.FetchSeriesDataUseCaseImpl
+import dev.ayer.kinemagraphein.domain.LoadFavoritesUseCaseImpl
+import dev.ayer.kinemagraphein.domain.LoadRecentUseCaseImpl
+import dev.ayer.kinemagraphein.domain.LoadMoreShowItemsUseCaseImpl
+import dev.ayer.kinemagraphein.domain.SearchMediaUseCaseImpl
 import org.koin.dsl.module
 
 val useCaseModules = module {

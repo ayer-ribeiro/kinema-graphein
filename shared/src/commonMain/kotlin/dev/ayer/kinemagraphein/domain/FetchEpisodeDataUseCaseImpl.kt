@@ -1,4 +1,4 @@
-package dev.ayer.kinemagraphein.android.domain
+package dev.ayer.kinemagraphein.domain
 
 import dev.ayer.kinemagraphein.core.repository.EpisodeRepository
 import dev.ayer.kinemagraphein.core.usecase.FetchEpisodeDataUseCase
