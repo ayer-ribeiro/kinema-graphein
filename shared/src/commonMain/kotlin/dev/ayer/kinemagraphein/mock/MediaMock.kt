@@ -1,4 +1,4 @@
-package dev.ayer.kinemagraphein.android.mock
+package dev.ayer.kinemagraphein.mock
 
 import dev.ayer.kinemagraphein.entity.media.Episode
 import dev.ayer.kinemagraphein.entity.media.Season
