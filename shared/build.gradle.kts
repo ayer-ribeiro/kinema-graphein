@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.ktorfit)
+    alias(libs.plugins.sqldelight)
 }
 
 kotlin {
@@ -39,7 +40,17 @@ kotlin {
             implementation(libs.ktor.json)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.napier)
+            implementation(libs.sqldelight.runtime)
+            implementation(libs.sqldelight.coroutines)
         }
+        androidMain.dependencies {
+            implementation(libs.ktor.client.android)
+            implementation(libs.sqldelight.android.driver)
+        }
+//        iosMain.dependencies {
+//            implementation(libs.ktor.client.ios)
+//            implementation(libs.sqldelight.ios.driver)
+//        }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.koin.test)
@@ -77,5 +88,13 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
+
+sqldelight {
+    databases {
+        create("Database") {
+            packageName.set("dev.ayer.kinemagraphein.data.database")
+        }
     }
 }

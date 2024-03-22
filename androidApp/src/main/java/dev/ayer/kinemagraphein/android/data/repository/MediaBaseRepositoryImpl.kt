@@ -6,7 +6,7 @@ import dev.ayer.kinemagraphein.android.data.adapter.toMediaBaseData
 import dev.ayer.kinemagraphein.data.adapter.toMediaBaseData
 import dev.ayer.kinemagraphein.android.data.adapter.toRecentTable
 import dev.ayer.kinemagraphein.data.dto.ShowModelBase
-import dev.ayer.kinemagraphein.data.sources.KtorfitApiService
+import dev.ayer.kinemagraphein.data.api.KtorfitApiService
 import dev.ayer.kinemagraphein.android.data.sources.room.AppRoomDatabase
 import dev.ayer.kinemagraphein.android.data.sources.room.entity.FavoritesTable
 import dev.ayer.kinemagraphein.android.data.sources.room.entity.RecentTable

@@ -1,4 +1,4 @@
-package dev.ayer.kinemagraphein.data.sources
+package dev.ayer.kinemagraphein.data.api
 
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Path

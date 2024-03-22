@@ -3,7 +3,7 @@ package dev.ayer.kinemagraphein.di
 import de.jensklingenberg.ktorfit.Ktorfit
 import dev.ayer.kinemagraphein.data.config.jsonConfig
 import dev.ayer.kinemagraphein.data.config.loggingConfig
-import dev.ayer.kinemagraphein.data.sources.KtorfitApiService
+import dev.ayer.kinemagraphein.data.api.KtorfitApiService
 import dev.ayer.kinemagraphein.utils.logging.KtorLoggerImpl
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
