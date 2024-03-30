@@ -4,13 +4,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowColumn
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.FlowRowScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -25,15 +23,14 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import dev.ayer.kinemagraphein.entity.media.MediaBaseData
+import dev.ayer.kinemagraphein.entity.media.ShowBaseData
 
 @Composable
 fun MediaGridSection(
-    mediaItems: List<MediaBaseData>,
-    onContentClick: (MediaBaseData) -> Unit,
-    onFavoriteIconClick: (MediaBaseData) -> Unit
+    mediaItems: List<ShowBaseData>,
+    onContentClick: (ShowBaseData) -> Unit,
+    onFavoriteIconClick: (ShowBaseData) -> Unit
 ) {
     GridSection(mediaItems) { media ->
         MediaItemCover(
@@ -46,9 +43,9 @@ fun MediaGridSection(
 
 @Composable
 fun MediaRowSection(
-    mediaItems: List<MediaBaseData>,
-    onContentClick: (MediaBaseData) -> Unit,
-    onFavoriteIconClick: (MediaBaseData) -> Unit,
+    mediaItems: List<ShowBaseData>,
+    onContentClick: (ShowBaseData) -> Unit,
+    onFavoriteIconClick: (ShowBaseData) -> Unit,
 ) {
     LazyRowSection(mediaItems) { media ->
         MediaItemCover(
@@ -63,9 +60,9 @@ fun MediaRowSection(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun MediaFlowRowSection(
-    mediaItems: List<MediaBaseData>,
-    onContentClick: (MediaBaseData) -> Unit,
-    onFavoriteIconClick: (MediaBaseData) -> Unit,
+    mediaItems: List<ShowBaseData>,
+    onContentClick: (ShowBaseData) -> Unit,
+    onFavoriteIconClick: (ShowBaseData) -> Unit,
 ) {
     FlowRowSection(mediaItems) { media ->
         MediaItemCover(
@@ -79,9 +76,9 @@ fun MediaFlowRowSection(
 
 @Composable
 fun MediaLazyFlowSection(
-    mediaItems: List<MediaBaseData>,
-    onContentClick: (MediaBaseData) -> Unit,
-    onFavoriteIconClick: (MediaBaseData) -> Unit,
+    mediaItems: List<ShowBaseData>,
+    onContentClick: (ShowBaseData) -> Unit,
+    onFavoriteIconClick: (ShowBaseData) -> Unit,
 ) {
     LazyFlowSection(mediaItems) { media ->
         MediaItemCover(

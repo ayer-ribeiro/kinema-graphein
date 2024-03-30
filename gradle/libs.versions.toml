@@ -24,7 +24,9 @@ ktor = "2.3.6"
 ksp = "1.9.20-1.0.14"
 napier = "2.7.1"
 kotlinx-serialization = "1.6.3"
-sqldelight = "2.0.0"
+sqldelight = "2.0.1"
+kotlinx-datetime = "0.5.0"
+kotlinx-collections-immutable = "0.3.7"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -59,7 +61,6 @@ androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidx-cor
 androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
 androidx-compose = { module = "androidx.compose:compose-bom", version.ref = "compose" }
 
-
 koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
 androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
@@ -83,6 +84,8 @@ sqldelight-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sq
 sqldelight-android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
 sqldelight-ios-driver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
 sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime"}
+kotlinx-collections-immutable = { module ="org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collections-immutable"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -10,20 +10,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import dev.ayer.kinemagraphein.android.presenter.navigation.AppNavHost
-import dev.ayer.kinemagraphein.android.presenter.theme.KinemaGrapheinTheme
+import dev.ayer.kinemagraphein.android.presenter.theme.QuantumTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            KinemaGrapheinApp()
+            QuantumTheme {
+                KinemaGrapheinApp()
+            }
         }
     }
 }
 
 @Composable
 fun KinemaGrapheinApp() {
-    KinemaGrapheinTheme {
+    QuantumTheme {
         val navController = rememberNavController()
         Surface(
             modifier = Modifier.fillMaxSize(),

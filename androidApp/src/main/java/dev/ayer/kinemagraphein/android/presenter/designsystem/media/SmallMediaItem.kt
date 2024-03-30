@@ -24,12 +24,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import dev.ayer.kinemagraphein.entity.media.MediaBaseData
+import dev.ayer.kinemagraphein.entity.media.ShowBaseData
 import dev.ayer.kinemagraphein.android.presenter.designsystem.favorite.FavoriteIcon
 
 @Composable
 fun SmallMediaItemCover(
-    media: MediaBaseData,
+    media: ShowBaseData,
     modifier: Modifier = Modifier,
     onContentClick: () -> Unit = {},
     onFavoriteIconClick: (Boolean) -> Unit = {}
@@ -49,7 +49,7 @@ fun SmallMediaItemCover(
                 MediaDescription(media = media, lines = 1)
             }
             FavoriteIcon(
-                media = media,
+                favoritable = media,
                 onClick = { onFavoriteIconClick(!media.isFavorite) }
             )
         }
@@ -59,7 +59,7 @@ fun SmallMediaItemCover(
 
 @Composable
 private fun SmallMediaCover(
-    media: MediaBaseData,
+    media: ShowBaseData,
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier) {
@@ -88,7 +88,7 @@ private fun SmallMediaCover(
 )
 @Composable
 fun SmallMediaItemCoverPreview(
-    @PreviewParameter(MediaPreviewParameterProvider::class) media: MediaBaseData
+    @PreviewParameter(MediaPreviewParameterProvider::class) media: ShowBaseData
 ) {
     SmallMediaItemCover(
         media = media

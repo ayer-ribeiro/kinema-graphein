@@ -7,8 +7,11 @@ import dev.ayer.kinemagraphein.core.usecase.LoadFavoritesUseCase
 import dev.ayer.kinemagraphein.core.usecase.LoadMoreShowItemsUseCase
 import dev.ayer.kinemagraphein.core.usecase.LoadRecentUseCase
 import dev.ayer.kinemagraphein.core.usecase.SearchMediaUseCase
-import dev.ayer.kinemagraphein.data.adapter.withNewFavoriteState
-import dev.ayer.kinemagraphein.entity.media.MediaBaseData
+import dev.ayer.kinemagraphein.data.api.adapter.withNewFavoriteState
+import dev.ayer.kinemagraphein.entity.media.ShowBaseData
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -34,10 +37,10 @@ class HomeViewModel : ViewModel(), KoinComponent {
             isLoading = false,
             isLoadingMoreItems = false,
             isError = false,
-            favorites = emptyList(),
-            recent = emptyList(),
-            allMediaList = emptyList(),
-            searchResult = emptyList(),
+            favorites = persistentListOf(),
+            recent = persistentListOf(),
+            allMediaList = persistentListOf(),
+            searchResult = persistentListOf(),
             searchQuery = "",
             searchActiveState = false
         )
@@ -49,6 +52,8 @@ class HomeViewModel : ViewModel(), KoinComponent {
     val uiEvents: Flow<HomeEvents> = _uiEvents
 
     init {
+        collectRecent()
+        collectFavorite()
         loadInitialData()
     }
 
@@ -74,7 +79,7 @@ class HomeViewModel : ViewModel(), KoinComponent {
 
         val items = loadSeriesList().firstOrNull() ?: emptyList()
         val newState = _uiState.value.copy(
-            allMediaList = items,
+            allMediaList = items.toPersistentList(),
             isLoadingMoreItems = false
         )
         _uiState.emit(newState)
@@ -82,7 +87,7 @@ class HomeViewModel : ViewModel(), KoinComponent {
 
     private fun onSearchQueryCleared() = viewModelScope.launch {
         val newState = _uiState.value.copy(
-            searchResult = emptyList(),
+            searchResult = persistentListOf(),
             searchQuery = "",
             searchActiveState = false,
         )
@@ -92,7 +97,7 @@ class HomeViewModel : ViewModel(), KoinComponent {
     private fun onSearchCalled(query: String) = viewModelScope.launch {
         val searchResult = searchMedia(query).firstOrNull() ?: emptyList()
         val newState = _uiState.value.copy(
-            searchResult = searchResult,
+            searchResult = searchResult.toPersistentList(),
         )
         _uiState.emit(newState)
     }
@@ -111,13 +116,13 @@ class HomeViewModel : ViewModel(), KoinComponent {
         _uiState.emit(newState)
     }
 
-    private fun onMediaClicked(media: MediaBaseData) = viewModelScope.launch {
+    private fun onMediaClicked(media: ShowBaseData) = viewModelScope.launch {
         val event = HomeEvents.Navigation.NavigateToSeriesDetails(media.id)
         _uiEvents.emit(event)
     }
 
     private fun onFavoriteClicked(
-        media: MediaBaseData,
+        media: ShowBaseData,
     ) = viewModelScope.launch {
         val newFavoriteState = !media.isFavorite
         changeFavoriteState(media)
@@ -127,11 +132,33 @@ class HomeViewModel : ViewModel(), KoinComponent {
         val allMediaList = _uiState.value.allMediaList .withNewFavoriteState(media, newFavoriteState)
 
         val state = _uiState.value.copy(
-            favorites = favorites,
-            recent = recent,
-            allMediaList = allMediaList,
+            favorites = favorites.toPersistentList(),
+            recent = recent.toPersistentList(),
+            allMediaList = allMediaList.toPersistentList(),
         )
         _uiState.emit(state)
+    }
+
+    private fun collectFavorite() {
+        viewModelScope.launch {
+            loadFavorites().collect { favorite ->
+                val newFavoriteState = _uiState.value.copy(
+                    favorites = favorite.toImmutableList()
+                )
+                _uiState.emit(newFavoriteState)
+            }
+        }
+    }
+
+    private fun collectRecent() {
+        viewModelScope.launch {
+            loadRecent().collect { recent ->
+                val newRecentState = _uiState.value.copy(
+                    recent = recent.toImmutableList()
+                )
+                _uiState.emit(newRecentState)
+            }
+        }
     }
 
     private fun loadInitialData() = viewModelScope.launch {
@@ -142,19 +169,19 @@ class HomeViewModel : ViewModel(), KoinComponent {
         _uiState.emit(loadingState)
 
         val firstState = _uiState.value.copy(
-            favorites = loadFavorites().firstOrNull() ?: emptyList(),
-            recent = loadRecent().firstOrNull() ?: emptyList(),
-            allMediaList = loadSeriesList().firstOrNull() ?: emptyList(),
+            favorites = loadFavorites().firstOrNull()?.toPersistentList() ?: persistentListOf(),
+            recent = loadRecent().firstOrNull()?.toPersistentList() ?: persistentListOf(),
+            allMediaList = loadSeriesList().firstOrNull()?.toPersistentList() ?: persistentListOf(),
             isLoading = false,
             isLoadingMoreItems = false,
         )
         _uiState.emit(firstState)
     }
 
-    private fun List<MediaBaseData>.withNewFavoriteState(
-        media: MediaBaseData,
+    private fun List<ShowBaseData>.withNewFavoriteState(
+        media: ShowBaseData,
         favoriteState: Boolean
-    ): List<MediaBaseData> {
+    ): List<ShowBaseData> {
         return this.map {
             if (it.id != media.id) {
                 return@map it

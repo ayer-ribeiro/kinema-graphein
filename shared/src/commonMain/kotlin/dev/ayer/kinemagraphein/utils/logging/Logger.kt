@@ -3,7 +3,7 @@ package dev.ayer.kinemagraphein.utils.logging
 import io.github.aakira.napier.Napier
 import io.ktor.client.plugins.logging.Logger
 
-class KtorLoggerImpl: Logger {
+internal class KtorLoggerImpl: Logger {
     override fun log(message: String) {
         Napier.d(
             message = message,

@@ -33,19 +33,22 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import dev.ayer.kinemagraphein.entity.media.MediaBaseData
+import dev.ayer.kinemagraphein.entity.media.ShowBaseData
 import dev.ayer.kinemagraphein.android.presenter.designsystem.favorite.FavoriteIcon
 import dev.ayer.kinemagraphein.android.presenter.designsystem.media.MediaPreviewParameterProvider
-import dev.ayer.kinemagraphein.android.presenter.theme.KinemaGrapheinTheme
+import dev.ayer.kinemagraphein.android.presenter.theme.QuantumTheme
+import dev.ayer.kinemagraphein.entity.media.Coverable
+import dev.ayer.kinemagraphein.entity.media.Favoritable
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun Header(
-    media: MediaBaseData,
+    data: Coverable,
+    favoriteData: Favoritable,
     modifier: Modifier = Modifier,
     shouldShowFavoriteIcon: Boolean = true,
     onNavigateBack: () -> Unit,
-    onFavoriteClick: (MediaBaseData) -> Unit,
+    onFavoriteClick: () -> Unit,
 ) {
     Box(
         modifier = modifier.fillMaxWidth(),
@@ -53,7 +56,7 @@ fun Header(
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(media.originalImageUrl ?: media.mediumImageUrl)
+                .data(data.originalImageUrl ?: data.mediumImageUrl)
                 .crossfade(true)
                 .build(),
             contentDescription = null,
@@ -80,7 +83,7 @@ fun Header(
                 titleContentColor = MaterialTheme.colorScheme.onBackground,
             ),
             title = {
-                Text(media.name)
+                Text(data.name)
             },
             navigationIcon = {
                 Box(
@@ -95,20 +98,20 @@ fun Header(
                     )
                 }
             },
-            actions = favoriteAction(media, shouldShowFavoriteIcon, onFavoriteClick)
+            actions = favoriteAction(favoriteData, shouldShowFavoriteIcon, onFavoriteClick)
         )
     }
 }
 
 @Composable
 private fun favoriteAction(
-    media: MediaBaseData,
+    favoritable: Favoritable,
     shouldShowFavoriteIcon: Boolean,
-    onFavoriteClick: (MediaBaseData) -> Unit
+    onFavoriteClick: () -> Unit
 ): @Composable() (RowScope.() -> Unit) = {
     if (shouldShowFavoriteIcon) {
-        FavoriteIcon(media = media) {
-            onFavoriteClick(media)
+        FavoriteIcon(favoritable = favoritable) {
+            onFavoriteClick()
         }
     }
 }
@@ -155,12 +158,13 @@ private fun BottomOverlay(modifier: Modifier = Modifier) {
 )
 @Composable
 fun HeaderPreview(
-    @PreviewParameter(MediaPreviewParameterProvider::class) media: MediaBaseData
+    @PreviewParameter(MediaPreviewParameterProvider::class) media: ShowBaseData
 ) {
-    KinemaGrapheinTheme {
+    QuantumTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
             Header(
-                media = media,
+                data = media,
+                favoriteData = object : Favoritable { override val isFavorite get() = true },
                 shouldShowFavoriteIcon = false,
                 onNavigateBack = {  },
                 onFavoriteClick = { },

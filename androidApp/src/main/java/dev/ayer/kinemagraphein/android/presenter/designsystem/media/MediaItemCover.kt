@@ -3,7 +3,6 @@ package dev.ayer.kinemagraphein.android.presenter.designsystem.media
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,13 +24,13 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
-import dev.ayer.kinemagraphein.entity.media.MediaBaseData
+import dev.ayer.kinemagraphein.entity.media.ShowBaseData
 import dev.ayer.kinemagraphein.android.presenter.designsystem.favorite.FavoriteIcon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MediaItemCover(
-    media: MediaBaseData,
+    media: ShowBaseData,
     modifier: Modifier = Modifier,
     onContentClick: () -> Unit = {},
     onFavoriteIconClick: (Boolean) -> Unit = {}
@@ -48,7 +47,7 @@ fun MediaItemCover(
             MediaDescription(media = media, lines = 2)
         }
         FavoriteIcon(
-            media = media,
+            favoritable = media,
         ) {
             onFavoriteIconClick(!media.isFavorite)
         }
@@ -74,7 +73,7 @@ private fun TopOverlay(modifier: Modifier = Modifier) {
 
 @Composable
 private fun MediaCover(
-    media: MediaBaseData,
+    media: ShowBaseData,
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier) {
@@ -104,7 +103,7 @@ private fun MediaCover(
 )
 @Composable
 fun MediaItemCoverPreview(
-    @PreviewParameter(MediaPreviewParameterProvider::class) media: MediaBaseData
+    @PreviewParameter(MediaPreviewParameterProvider::class) media: ShowBaseData
 ) {
     MediaItemCover(
         media = media

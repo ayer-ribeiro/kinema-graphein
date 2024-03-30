@@ -1,0 +1,84 @@
+import kotlin.Boolean;
+import kotlin.String;
+import kotlin.collections.List;
+import kotlinx.datetime.Instant;
+
+CREATE TABLE shows (
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    summary TEXT DEFAULT NULL,
+--     premiered TEXT DEFAULT NULL,
+    genres TEXT AS List<String> DEFAULT "",
+    schedule_time TEXT NOT NULL,
+    schedule_days TEXT AS List<String> NOT NULL,
+    medium_image_url TEXT DEFAULT NULL,
+    original_image_url TEXT DEFAULT NULL,
+    release_date TEXT DEFAULT NULL,
+    last_access INTEGER AS Instant DEFAULT NULL,
+    is_favorite INTEGER AS Boolean NOT NULL DEFAULT 0
+);
+
+CREATE INDEX shows_id ON shows(id);
+CREATE INDEX shows_name ON shows(name);
+CREATE INDEX shows_genres ON shows(genres);
+
+getAllShows:
+SELECT * FROM shows;
+
+getShow:
+SELECT * FROM shows
+WHERE id = :id;
+
+searchInShows:
+SELECT * FROM shows
+WHERE
+    name LIKE (' %' || :query || ' %') OR
+    summary LIKE (' %' || :query || ' %') OR
+    genres LIKE (' %' || :query || ' %');
+
+getFavorites:
+SELECT * FROM shows
+WHERE is_favorite <> 0;
+
+getRecents:
+SELECT * FROM shows
+ORDER BY last_access DESC
+LIMIT 10;
+
+registerAccess:
+UPDATE shows SET last_access = :time
+WHERE id = :id;
+
+insertFavorite:
+INSERT OR REPLACE INTO shows(
+    id,
+    name,
+    summary,
+--     premiered,
+    genres,
+    schedule_time,
+    schedule_days,
+    medium_image_url,
+    original_image_url,
+    release_date,
+    last_access,
+    is_favorite
+)
+VALUES (
+    :id,
+    :name,
+    :summary,
+--     :premiered,
+    :genres,
+    :schedule_time,
+    :schedule_days,
+    :medium_image_url,
+    :original_image_url,
+    :release_date,
+    :last_access,
+    1
+);
+
+removeFavorite:
+UPDATE shows SET is_favorite = 0
+WHERE id = :id;

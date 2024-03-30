@@ -4,6 +4,7 @@ import dev.ayer.kinemagraphein.entity.media.Episode
 import dev.ayer.kinemagraphein.entity.media.Season
 import dev.ayer.kinemagraphein.entity.media.Show
 import dev.ayer.kinemagraphein.entity.time.Schedule
+import kotlinx.datetime.Clock
 
 val underTheDomeMediaMock
     get() = Show(
@@ -155,7 +156,8 @@ val underTheDomeMediaMock
                 ), id = "Shakeya", isFavorite = false, name = "Marica"
             )
         ),
-        originalImageUrl = null
+        originalImageUrl = null,
+        lastAccess = Clock.System.now()
     )
 
 val personOfInterestMediaMock
@@ -178,6 +180,7 @@ val personOfInterestMediaMock
             "Crime",
             "Science-Fiction",
         ),
+        lastAccess = Clock.System.now(),
         seasons = listOf(
             Season(
                 summary = "asd hausdhaosduhao sidauhsd ",

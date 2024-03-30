@@ -7,6 +7,16 @@ plugins {
     alias(libs.plugins.sqldelight)
 }
 
+sqldelight {
+
+    databases {
+        create(name = "KinemaDatabase") {
+            packageName.set("dev.ayer.kinemagraphein.data.database")
+//            srcDirs.setFrom("shared/src/commonMain/kotlin/sqldelight/dev/ayer/kinemagraphein/data/database")
+        }
+    }
+}
+
 kotlin {
     androidTarget {
         compilations.all {
@@ -42,6 +52,7 @@ kotlin {
             implementation(libs.napier)
             implementation(libs.sqldelight.runtime)
             implementation(libs.sqldelight.coroutines)
+            implementation(libs.kotlinx.datetime)
         }
         androidMain.dependencies {
             implementation(libs.ktor.client.android)
@@ -88,13 +99,5 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
-    }
-}
-
-sqldelight {
-    databases {
-        create("Database") {
-            packageName.set("dev.ayer.kinemagraphein.data.database")
-        }
     }
 }

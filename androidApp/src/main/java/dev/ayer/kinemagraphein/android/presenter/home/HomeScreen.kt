@@ -22,7 +22,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -32,22 +31,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import dev.ayer.kinemagraphein.android.di.appModules
 import dev.ayer.kinemagraphein.android.presenter.designsystem.LoadingProgress
 import dev.ayer.kinemagraphein.android.presenter.designsystem.media.MediaGridSection
 import dev.ayer.kinemagraphein.android.presenter.designsystem.media.MediaItemCover
 import dev.ayer.kinemagraphein.android.presenter.designsystem.media.MediaRowSection
 import dev.ayer.kinemagraphein.android.presenter.designsystem.text.SectionTitle
 import dev.ayer.kinemagraphein.android.presenter.navigation.navigateSingleTopToSeries
-import dev.ayer.kinemagraphein.android.presenter.theme.KinemaGrapheinTheme
-import dev.ayer.kinemagraphein.entity.media.MediaBaseData
+import dev.ayer.kinemagraphein.entity.media.ShowBaseData
 import org.koin.androidx.compose.koinViewModel
-import org.koin.compose.KoinApplication
 
 typealias SearchActiveStateChanged = HomeActionsIntent.SearchActiveStateChanged
 typealias SearchQueryCleared = HomeActionsIntent.SearchQueryCleared
@@ -139,7 +132,7 @@ fun HomeScreen(
 
 @OptIn(ExperimentalFoundationApi::class)
 private fun LazyListScope.AllMediaList(
-    allMediaList: List<MediaBaseData>,
+    allMediaList: List<ShowBaseData>,
     viewModel: HomeViewModel
 ) {
     stickyHeader {
@@ -175,7 +168,7 @@ private fun LazyListScope.AllMediaList(
 
 @OptIn(ExperimentalFoundationApi::class)
 private fun LazyListScope.FavoriteSection(
-    favorites: List<MediaBaseData>,
+    favorites: List<ShowBaseData>,
     viewModel: HomeViewModel
 ) {
     stickyHeader {
@@ -197,7 +190,7 @@ private fun LazyListScope.FavoriteSection(
 
 @OptIn(ExperimentalFoundationApi::class)
 private fun LazyListScope.RecentSection(
-    recent: List<MediaBaseData>,
+    recent: List<ShowBaseData>,
     viewModel: HomeViewModel
 ) {
     stickyHeader {
@@ -221,8 +214,8 @@ private fun LazyListScope.RecentSection(
 @OptIn(ExperimentalMaterial3Api::class)
 private fun AppSearchBar(
     screenState: HomeScreenState,
-    onContentClick: (MediaBaseData) -> Unit,
-    onFavoriteIconClick: (MediaBaseData) -> Unit,
+    onContentClick: (ShowBaseData) -> Unit,
+    onFavoriteIconClick: (ShowBaseData) -> Unit,
     onClearIconClick: () -> Unit,
     onQueryChange: (String) -> Unit,
     onSearch: (String) -> Unit,
@@ -281,18 +274,18 @@ private fun SearchClearIcon(
     }
 }
 
-@Preview(
-    showBackground = true,
-    device = Devices.PIXEL_3_XL,
-    showSystemUi = true
-)
-@Composable
-fun HomeScreenPreview() {
-    KoinApplication(application = { modules(appModules) }) {
-        KinemaGrapheinTheme {
-            Surface(color = MaterialTheme.colorScheme.background) {
-                HomeScreen(navController = rememberNavController())
-            }
-        }
-    }
-}
+//@Preview(
+//    showBackground = true,
+//    device = Devices.PIXEL_3_XL,
+//    showSystemUi = true
+//)
+//@Composable
+//fun HomeScreenPreview() {
+//    KoinApplication(application = { modules(appModules) }) {
+//        QuantumTheme {
+//            Surface(color = MaterialTheme.colorScheme.background) {
+//                HomeScreen(navController = rememberNavController())
+//            }
+//        }
+//    }
+//}

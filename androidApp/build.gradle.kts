@@ -58,6 +58,7 @@ dependencies {
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
     implementation(libs.compose.foundation)
+    implementation(libs.kotlinx.collections.immutable)
 
     implementation(libs.androidx.navigation.compose)
 
@@ -68,10 +69,10 @@ dependencies {
 
     implementation(libs.coil.compose)
 
-    implementation(libs.room.runtime)
-    implementation(libs.room.ktx)
-    annotationProcessor(libs.room.compiler)
-    ksp(libs.room.compiler)
+//    implementation(libs.room.runtime)
+//    implementation(libs.room.ktx)
+//    annotationProcessor(libs.room.compiler)
+//    ksp(libs.room.compiler)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)

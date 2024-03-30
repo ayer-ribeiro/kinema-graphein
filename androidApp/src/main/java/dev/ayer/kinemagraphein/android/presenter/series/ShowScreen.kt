@@ -25,11 +25,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,15 +37,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import dev.ayer.kinemagraphein.android.di.appModules
 import dev.ayer.kinemagraphein.android.presenter.designsystem.Header
 import dev.ayer.kinemagraphein.android.presenter.designsystem.LoadingProgress
 import dev.ayer.kinemagraphein.android.presenter.designsystem.text.HtmlText
@@ -53,11 +49,9 @@ import dev.ayer.kinemagraphein.android.presenter.designsystem.text.SectionTitle
 import dev.ayer.kinemagraphein.android.presenter.navigation.navigateSingleTopEpisode
 import dev.ayer.kinemagraphein.android.presenter.theme.Grey300
 import dev.ayer.kinemagraphein.android.presenter.theme.Grey500
-import dev.ayer.kinemagraphein.android.presenter.theme.KinemaGrapheinTheme
 import dev.ayer.kinemagraphein.entity.media.Episode
 import dev.ayer.kinemagraphein.entity.media.Show
 import org.koin.androidx.compose.koinViewModel
-import org.koin.compose.KoinApplication
 import org.koin.core.parameter.parametersOf
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -68,9 +62,23 @@ fun ShowScreen(
     viewModel: ShowScreenViewModel = koinViewModel(parameters = { parametersOf(seriesId) })
 ) {
     val screenState by viewModel.uiState.collectAsState()
-    val show = screenState.show
-    val isLoading = screenState.isLoading
+
+    val show = remember(screenState) { screenState.show }
+    val isLoading = remember(screenState) { screenState.isLoading }
     val pagerState = rememberPagerState(pageCount = { show?.seasons?.size ?: 0 })
+
+    val onBackClick: () -> Unit = remember(Unit) {
+        return@remember { navController.popBackStack() }
+    }
+    val onEpisodeClick: (Episode) -> Unit = remember(screenState) {
+        return@remember { episode ->
+            navController.navigateSingleTopEpisode(
+                seriesId = seriesId,
+                season = episode.season,
+                number = episode.number
+            )
+        }
+    }
 
     if (isLoading) {
         LoadingProgress()
@@ -81,14 +89,34 @@ fun ShowScreen(
         return
     }
 
+
+    ShowScreenContent(
+        show = show,
+        onBackClick = onBackClick,
+        onEpisodeClick = onEpisodeClick,
+        pagerState = pagerState,
+        seriesId = seriesId
+    )
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun ShowScreenContent(
+    show: Show,
+    onBackClick: () -> Unit,
+    onEpisodeClick: (Episode) -> Unit,
+    pagerState: PagerState,
+    seriesId: String
+) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth()
     ) {
         item {
             Header(
-                media = show,
+                data = show,
+                favoriteData = show,
                 onFavoriteClick = {},
-                onNavigateBack = { navController.popBackStack() },
+                onNavigateBack = onBackClick,
             )
         }
         item { Schedule(show) }
@@ -96,13 +124,7 @@ fun ShowScreen(
         item { Spacer(modifier = Modifier.size(24.dp)) }
         item { PagerIndicator(pagerState) }
         item {
-            SeasonsPager(pagerState, show, onClickEpisode = { episode ->
-                navController.navigateSingleTopEpisode(
-                    seriesId = seriesId,
-                    season = episode.season,
-                    number = episode.number
-                )
-            })
+            SeasonsPager(pagerState, show, onClickEpisode = onEpisodeClick)
             Spacer(modifier = Modifier.size(16.dp))
         }
     }
@@ -272,21 +294,25 @@ private fun Schedule(show: Show) {
     }
 }
 
-@Preview(
-    showBackground = true,
-    device = Devices.PIXEL_3_XL,
-    showSystemUi = true
-)
-@Composable
-fun SeriesScreenPreview() {
-    KoinApplication(application = { modules(appModules) }) {
-        KinemaGrapheinTheme {
-            Surface(color = MaterialTheme.colorScheme.background) {
-                ShowScreen(
-                    navController = rememberNavController(),
-                    seriesId = "1"
-                )
-            }
-        }
-    }
-}
+//@OptIn(ExperimentalFoundationApi::class)
+//@Preview(
+//    showBackground = true,
+//    device = Devices.PIXEL_3_XL,
+//    showSystemUi = true
+//)
+//@Composable
+//fun SeriesScreenPreview() {
+//    KoinApplication(application = { modules(appModules) }) {
+//        QuantumTheme {
+//            Surface(color = MaterialTheme.colorScheme.background) {
+//                ShowScreenContent(
+//                    seriesId = "",
+//                    show = Show(),
+//                    onBackClick = {},
+//                    onEpisodeClick = {},
+//                    pagerState = PagerState(initialPage = 0f, initialPageOffsetFraction = 0f)
+//                )
+//            }
+//        }
+//    }
+//}

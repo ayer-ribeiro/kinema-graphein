@@ -6,25 +6,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import dev.ayer.kinemagraphein.android.di.appModules
 import dev.ayer.kinemagraphein.android.presenter.designsystem.Header
 import dev.ayer.kinemagraphein.android.presenter.designsystem.text.HtmlText
-import dev.ayer.kinemagraphein.android.presenter.theme.KinemaGrapheinTheme
 import dev.ayer.kinemagraphein.entity.media.Episode
 import org.koin.androidx.compose.koinViewModel
-import org.koin.compose.KoinApplication
 import org.koin.core.parameter.parametersOf
 
 @Composable
@@ -53,7 +46,8 @@ fun EpisodeScreen(
     LazyColumn {
         item {
             Header(
-                media = episode,
+                data = episode,
+                favoriteData = episode,
                 shouldShowFavoriteIcon = false,
                 onNavigateBack = { navController.popBackStack() },
                 onFavoriteClick = {}
@@ -98,24 +92,23 @@ private fun Summary(episode: Episode) {
     )
 }
 
-
-@Preview(
-    showBackground = true,
-    device = Devices.PIXEL_3_XL,
-    showSystemUi = true
-)
-@Composable
-fun EpisodeScreenPreview() {
-    KoinApplication(application = { modules(appModules) }) {
-        KinemaGrapheinTheme {
-            Surface(color = MaterialTheme.colorScheme.background) {
-                EpisodeScreen(
-                    navController = rememberNavController(),
-                    seriesId = "1",
-                    episodeNumber = 1,
-                    episodeSeason = 1
-                )
-            }
-        }
-    }
-}
+//@Preview(
+//    showBackground = true,
+//    device = Devices.PIXEL_3_XL,
+//    showSystemUi = true
+//)
+//@Composable
+//fun EpisodeScreenPreview() {
+//    KoinApplication(application = { modules(appModules) }) {
+//        QuantumTheme {
+//            Surface(color = MaterialTheme.colorScheme.background) {
+//                EpisodeScreen(
+//                    navController = rememberNavController(),
+//                    seriesId = "1",
+//                    episodeNumber = 1,
+//                    episodeSeason = 1
+//                )
+//            }
+//        }
+//    }
+//}

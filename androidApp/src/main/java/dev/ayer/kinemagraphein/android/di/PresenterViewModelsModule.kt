@@ -6,7 +6,7 @@ import dev.ayer.kinemagraphein.android.presenter.series.ShowScreenViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-val viewModelModules = module {
+val presenterModule = module {
     viewModel { HomeViewModel() }
     viewModel { ShowScreenViewModel(get()) }
     viewModel { EpisodeViewModel(get(), get(), get()) }
