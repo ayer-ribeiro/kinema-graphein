@@ -1,4 +1,4 @@
-package dev.ayer.kinemagraphein.android
+package dev.ayer.kinemagraphein.android.presenter
 
 //import androidx.compose.foundation.isSystemInDarkTheme
 //import androidx.compose.foundation.shape.RoundedCornerShape
