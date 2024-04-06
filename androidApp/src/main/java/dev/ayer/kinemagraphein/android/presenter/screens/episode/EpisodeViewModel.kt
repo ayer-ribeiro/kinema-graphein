@@ -1,4 +1,4 @@
-package dev.ayer.kinemagraphein.android.presenter.episode
+package dev.ayer.kinemagraphein.android.presenter.screens.episode
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

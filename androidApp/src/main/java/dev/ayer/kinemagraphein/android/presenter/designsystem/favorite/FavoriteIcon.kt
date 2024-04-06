@@ -13,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.ayer.kinemagraphein.entity.media.Favoritable
-import dev.ayer.kinemagraphein.entity.media.ShowBaseData
 
 @Composable
 fun FavoriteIcon(

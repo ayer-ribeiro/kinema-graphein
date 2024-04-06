@@ -1,9 +1,9 @@
-package dev.ayer.kinemagraphein.android.presenter.series
+package dev.ayer.kinemagraphein.android.presenter.screens.series
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.ayer.kinemagraphein.core.usecase.FetchSeriesDataUseCase
-import dev.ayer.kinemagraphein.android.presenter.home.HomeEvents
+import dev.ayer.kinemagraphein.android.presenter.screens.home.HomeEvents
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow

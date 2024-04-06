@@ -1,4 +1,4 @@
-package dev.ayer.kinemagraphein.android.presenter.home
+package dev.ayer.kinemagraphein.android.presenter.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,12 +7,10 @@ import dev.ayer.kinemagraphein.core.usecase.LoadFavoritesUseCase
 import dev.ayer.kinemagraphein.core.usecase.LoadMoreShowItemsUseCase
 import dev.ayer.kinemagraphein.core.usecase.LoadRecentUseCase
 import dev.ayer.kinemagraphein.core.usecase.SearchMediaUseCase
-import dev.ayer.kinemagraphein.data.api.adapter.withNewFavoriteState
-import dev.ayer.kinemagraphein.entity.media.ShowBaseData
+import dev.ayer.kinemagraphein.entity.media.ShowBase
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,9 +30,9 @@ class HomeViewModel : ViewModel(), KoinComponent {
     private val searchMedia: SearchMediaUseCase by inject()
     private val loadSeriesList: LoadMoreShowItemsUseCase by inject()
 
-    private val emptyState
+    private val initialState
         get() = State(
-            isLoading = false,
+            isLoading = true,
             isLoadingMoreItems = false,
             isError = false,
             favorites = persistentListOf(),
@@ -45,7 +43,7 @@ class HomeViewModel : ViewModel(), KoinComponent {
             searchActiveState = false
         )
 
-    private val _uiState = MutableStateFlow(emptyState)
+    private val _uiState = MutableStateFlow(initialState)
     val uiState: StateFlow<State> = _uiState
 
     private val _uiEvents = MutableSharedFlow<HomeEvents>()
@@ -54,7 +52,7 @@ class HomeViewModel : ViewModel(), KoinComponent {
     init {
         collectRecent()
         collectFavorite()
-        loadInitialData()
+        collectShows()
     }
 
     fun onAction(homeActions: HomeActionsIntent) {
@@ -71,18 +69,8 @@ class HomeViewModel : ViewModel(), KoinComponent {
 
     private fun loadMoreItems() = viewModelScope.launch {
         if (uiState.value.isLoadingMoreItems) return@launch
-
-        val loadingState = _uiState.value.copy(isLoadingMoreItems = true)
-        _uiState.emit(loadingState)
-
-        delay(500L)
-
-        val items = loadSeriesList().firstOrNull() ?: emptyList()
-        val newState = _uiState.value.copy(
-            allMediaList = items.toPersistentList(),
-            isLoadingMoreItems = false
-        )
-        _uiState.emit(newState)
+        emitLoadingMoreItemsState()
+        loadSeriesList()
     }
 
     private fun onSearchQueryCleared() = viewModelScope.launch {
@@ -116,77 +104,48 @@ class HomeViewModel : ViewModel(), KoinComponent {
         _uiState.emit(newState)
     }
 
-    private fun onMediaClicked(media: ShowBaseData) = viewModelScope.launch {
+    private fun onMediaClicked(media: ShowBase) = viewModelScope.launch {
         val event = HomeEvents.Navigation.NavigateToSeriesDetails(media.id)
         _uiEvents.emit(event)
     }
 
     private fun onFavoriteClicked(
-        media: ShowBaseData,
+        media: ShowBase,
     ) = viewModelScope.launch {
-        val newFavoriteState = !media.isFavorite
         changeFavoriteState(media)
-
-        val favorites = _uiState.value.favorites.withNewFavoriteState(media, newFavoriteState)
-        val recent = _uiState.value.recent.withNewFavoriteState(media, newFavoriteState)
-        val allMediaList = _uiState.value.allMediaList .withNewFavoriteState(media, newFavoriteState)
-
-        val state = _uiState.value.copy(
-            favorites = favorites.toPersistentList(),
-            recent = recent.toPersistentList(),
-            allMediaList = allMediaList.toPersistentList(),
-        )
-        _uiState.emit(state)
     }
 
-    private fun collectFavorite() {
-        viewModelScope.launch {
-            loadFavorites().collect { favorite ->
-                val newFavoriteState = _uiState.value.copy(
-                    favorites = favorite.toImmutableList()
-                )
-                _uiState.emit(newFavoriteState)
-            }
-        }
-    }
-
-    private fun collectRecent() {
-        viewModelScope.launch {
-            loadRecent().collect { recent ->
-                val newRecentState = _uiState.value.copy(
-                    recent = recent.toImmutableList()
-                )
-                _uiState.emit(newRecentState)
-            }
-        }
-    }
-
-    private fun loadInitialData() = viewModelScope.launch {
-        val loadingState = _uiState.value.copy(
-            isLoading = true
-        )
-
+    private suspend fun emitLoadingMoreItemsState() {
+        val loadingState = _uiState.value.copy(isLoadingMoreItems = true)
         _uiState.emit(loadingState)
-
-        val firstState = _uiState.value.copy(
-            favorites = loadFavorites().firstOrNull()?.toPersistentList() ?: persistentListOf(),
-            recent = loadRecent().firstOrNull()?.toPersistentList() ?: persistentListOf(),
-            allMediaList = loadSeriesList().firstOrNull()?.toPersistentList() ?: persistentListOf(),
-            isLoading = false,
-            isLoadingMoreItems = false,
-        )
-        _uiState.emit(firstState)
     }
 
-    private fun List<ShowBaseData>.withNewFavoriteState(
-        media: ShowBaseData,
-        favoriteState: Boolean
-    ): List<ShowBaseData> {
-        return this.map {
-            if (it.id != media.id) {
-                return@map it
-            }
-            return@map it.withNewFavoriteState(isFavorite = favoriteState)
+    private fun collectFavorite() = viewModelScope.launch {
+        loadFavorites().collect { favorite ->
+            val newFavoriteState = _uiState.value.copy(
+                favorites = favorite.toImmutableList()
+            )
+            _uiState.emit(newFavoriteState)
+        }
+    }
+
+    private fun collectRecent() = viewModelScope.launch {
+        loadRecent().collect { recent ->
+            val newRecentState = _uiState.value.copy(
+                recent = recent.toImmutableList()
+            )
+            _uiState.emit(newRecentState)
+        }
+    }
+
+    private fun collectShows() = viewModelScope.launch {
+        loadSeriesList().collect {
+            val newState = _uiState.value.copy(
+                allMediaList = it.toImmutableList(),
+                isLoading = false,
+                isLoadingMoreItems = false,
+            )
+            _uiState.emit(newState)
         }
     }
 }

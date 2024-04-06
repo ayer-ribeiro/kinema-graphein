@@ -42,6 +42,7 @@ WHERE is_favorite <> 0;
 
 getRecents:
 SELECT * FROM shows
+WHERE last_access > 0
 ORDER BY last_access DESC
 LIMIT 10;
 
@@ -77,6 +78,36 @@ VALUES (
     :release_date,
     :last_access,
     1
+);
+
+insert:
+INSERT OR REPLACE INTO shows(
+    id,
+    name,
+    summary,
+--     premiered,
+    genres,
+    schedule_time,
+    schedule_days,
+    medium_image_url,
+    original_image_url,
+    release_date,
+    last_access,
+    is_favorite
+)
+VALUES (
+    :id,
+    :name,
+    :summary,
+--     :premiered,
+    :genres,
+    :schedule_time,
+    :schedule_days,
+    :medium_image_url,
+    :original_image_url,
+    :release_date,
+    :last_access,
+    is_favorite
 );
 
 removeFavorite:

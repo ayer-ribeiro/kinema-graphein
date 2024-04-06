@@ -1,4 +1,4 @@
-package dev.ayer.kinemagraphein.android.presenter.home
+package dev.ayer.kinemagraphein.android.presenter.screens.home
 
 sealed class HomeEvents {
     sealed class Navigation: HomeEvents() {

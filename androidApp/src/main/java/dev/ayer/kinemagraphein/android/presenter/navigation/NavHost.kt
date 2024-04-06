@@ -7,9 +7,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import dev.ayer.kinemagraphein.android.presenter.episode.EpisodeScreen
-import dev.ayer.kinemagraphein.android.presenter.home.HomeScreen
-import dev.ayer.kinemagraphein.android.presenter.series.ShowScreen
+import dev.ayer.kinemagraphein.android.presenter.screens.episode.EpisodeScreen
+import dev.ayer.kinemagraphein.android.presenter.screens.home.HomeScreen
+import dev.ayer.kinemagraphein.android.presenter.screens.series.ShowScreen
 
 @Composable
 fun AppNavHost(

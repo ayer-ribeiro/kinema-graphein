@@ -1,7 +1,6 @@
 package dev.ayer.kinemagraphein.data.repository.implementation
 
 import dev.ayer.kinemagraphein.core.repository.ShowsRepository
-import dev.ayer.kinemagraphein.data.api.adapter.toShow
 import dev.ayer.kinemagraphein.data.api.KtorfitApiService
 import dev.ayer.kinemagraphein.entity.media.Show
 import kotlinx.coroutines.flow.Flow

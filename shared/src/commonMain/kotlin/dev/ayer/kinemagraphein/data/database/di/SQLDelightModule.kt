@@ -1,6 +1,5 @@
 package dev.ayer.kinemagraphein.data.database.di
 
-import app.cash.sqldelight.ColumnAdapter
 import app.cash.sqldelight.db.SqlDriver
 import dev.ayer.kinemagraphein.data.database.KinemaDatabase
 import dev.ayer.kinemagraphein.data.database.Shows

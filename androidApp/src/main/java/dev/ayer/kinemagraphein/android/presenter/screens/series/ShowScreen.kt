@@ -1,4 +1,4 @@
-package dev.ayer.kinemagraphein.android.presenter.series
+package dev.ayer.kinemagraphein.android.presenter.screens.series
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background

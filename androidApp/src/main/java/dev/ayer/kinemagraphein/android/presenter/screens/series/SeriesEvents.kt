@@ -1,4 +1,4 @@
-package dev.ayer.kinemagraphein.android.presenter.series
+package dev.ayer.kinemagraphein.android.presenter.screens.series
 
 import dev.ayer.kinemagraphein.entity.media.Episode
 

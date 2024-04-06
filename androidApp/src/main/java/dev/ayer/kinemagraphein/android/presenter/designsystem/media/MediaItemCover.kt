@@ -26,11 +26,12 @@ import coil.request.CachePolicy
 import coil.request.ImageRequest
 import dev.ayer.kinemagraphein.entity.media.ShowBaseData
 import dev.ayer.kinemagraphein.android.presenter.designsystem.favorite.FavoriteIcon
+import dev.ayer.kinemagraphein.entity.media.ShowBase
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MediaItemCover(
-    media: ShowBaseData,
+    media: ShowBase,
     modifier: Modifier = Modifier,
     onContentClick: () -> Unit = {},
     onFavoriteIconClick: (Boolean) -> Unit = {}
@@ -103,7 +104,7 @@ private fun MediaCover(
 )
 @Composable
 fun MediaItemCoverPreview(
-    @PreviewParameter(MediaPreviewParameterProvider::class) media: ShowBaseData
+    @PreviewParameter(ShowBasePreviewParameterProvider::class) media: ShowBase
 ) {
     MediaItemCover(
         media = media

@@ -33,12 +33,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import dev.ayer.kinemagraphein.entity.media.ShowBaseData
 import dev.ayer.kinemagraphein.android.presenter.designsystem.favorite.FavoriteIcon
-import dev.ayer.kinemagraphein.android.presenter.designsystem.media.MediaPreviewParameterProvider
+import dev.ayer.kinemagraphein.android.presenter.designsystem.media.ShowPreviewParameterProvider
 import dev.ayer.kinemagraphein.android.presenter.theme.QuantumTheme
 import dev.ayer.kinemagraphein.entity.media.Coverable
 import dev.ayer.kinemagraphein.entity.media.Favoritable
+import dev.ayer.kinemagraphein.entity.media.Show
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -158,15 +158,17 @@ private fun BottomOverlay(modifier: Modifier = Modifier) {
 )
 @Composable
 fun HeaderPreview(
-    @PreviewParameter(MediaPreviewParameterProvider::class) media: ShowBaseData
+    @PreviewParameter(ShowPreviewParameterProvider::class) media: Show
 ) {
     QuantumTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
             Header(
                 data = media,
-                favoriteData = object : Favoritable { override val isFavorite get() = true },
+                favoriteData = object : Favoritable {
+                    override val isFavorite get() = true
+                },
                 shouldShowFavoriteIcon = false,
-                onNavigateBack = {  },
+                onNavigateBack = { },
                 onFavoriteClick = { },
             )
         }

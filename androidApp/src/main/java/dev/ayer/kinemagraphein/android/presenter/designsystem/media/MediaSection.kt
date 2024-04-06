@@ -24,13 +24,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.ayer.kinemagraphein.entity.media.ShowBaseData
+import dev.ayer.kinemagraphein.entity.media.ShowBase
 
 @Composable
 fun MediaGridSection(
-    mediaItems: List<ShowBaseData>,
-    onContentClick: (ShowBaseData) -> Unit,
-    onFavoriteIconClick: (ShowBaseData) -> Unit
+    mediaItems: List<ShowBase>,
+    onContentClick: (ShowBase) -> Unit,
+    onFavoriteIconClick: (ShowBase) -> Unit
 ) {
     GridSection(mediaItems) { media ->
         MediaItemCover(
@@ -43,9 +43,9 @@ fun MediaGridSection(
 
 @Composable
 fun MediaRowSection(
-    mediaItems: List<ShowBaseData>,
-    onContentClick: (ShowBaseData) -> Unit,
-    onFavoriteIconClick: (ShowBaseData) -> Unit,
+    mediaItems: List<ShowBase>,
+    onContentClick: (ShowBase) -> Unit,
+    onFavoriteIconClick: (ShowBase) -> Unit,
 ) {
     LazyRowSection(mediaItems) { media ->
         MediaItemCover(
@@ -60,9 +60,9 @@ fun MediaRowSection(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun MediaFlowRowSection(
-    mediaItems: List<ShowBaseData>,
-    onContentClick: (ShowBaseData) -> Unit,
-    onFavoriteIconClick: (ShowBaseData) -> Unit,
+    mediaItems: List<ShowBase>,
+    onContentClick: (ShowBase) -> Unit,
+    onFavoriteIconClick: (ShowBase) -> Unit,
 ) {
     FlowRowSection(mediaItems) { media ->
         MediaItemCover(
@@ -76,9 +76,9 @@ fun MediaFlowRowSection(
 
 @Composable
 fun MediaLazyFlowSection(
-    mediaItems: List<ShowBaseData>,
-    onContentClick: (ShowBaseData) -> Unit,
-    onFavoriteIconClick: (ShowBaseData) -> Unit,
+    mediaItems: List<ShowBase>,
+    onContentClick: (ShowBase) -> Unit,
+    onFavoriteIconClick: (ShowBase) -> Unit,
 ) {
     LazyFlowSection(mediaItems) { media ->
         MediaItemCover(

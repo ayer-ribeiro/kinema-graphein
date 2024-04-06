@@ -1,11 +1,11 @@
-package dev.ayer.kinemagraphein.android.presenter.home
+package dev.ayer.kinemagraphein.android.presenter.screens.home
 
-import dev.ayer.kinemagraphein.entity.media.ShowBaseData
 import dev.ayer.kinemagraphein.android.presenter.actions.ViewIntentActions
+import dev.ayer.kinemagraphein.entity.media.ShowBase
 
 sealed class HomeActionsIntent: ViewIntentActions {
-    class FavoriteClicked(val media: ShowBaseData): HomeActionsIntent()
-    class MediaClicked(val media: ShowBaseData): HomeActionsIntent()
+    class FavoriteClicked(val media: ShowBase): HomeActionsIntent()
+    class MediaClicked(val media: ShowBase): HomeActionsIntent()
 
     data object LoadMoreItems: HomeActionsIntent()
 

@@ -2,7 +2,6 @@ package dev.ayer.kinemagraphein.data.repository.implementation
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
-import app.cash.sqldelight.coroutines.mapToOne
 import app.cash.sqldelight.coroutines.mapToOneOrNull
 import dev.ayer.kinemagraphein.core.repository.MediaBaseRepository
 import dev.ayer.kinemagraphein.data.api.KtorfitApiService
@@ -13,24 +12,24 @@ import dev.ayer.kinemagraphein.data.dto.ShowModelBase
 import dev.ayer.kinemagraphein.data.dto.ShowModelComplete
 import dev.ayer.kinemagraphein.entity.media.Show
 import dev.ayer.kinemagraphein.entity.media.ShowBase
-import dev.ayer.kinemagraphein.entity.media.ShowBaseData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.coroutines.coroutineContext
 
-class MediaBaseRepositoryImpl: MediaBaseRepository, KoinComponent {
+class MediaBaseRepositoryImpl : MediaBaseRepository, KoinComponent {
 
     private val ktorfitApiService: KtorfitApiService by inject()
     private val database: KinemaDatabase by inject()
 
-    private val showListState = MutableStateFlow<List<ShowBaseData>>(emptyList())
+    private val showListState = MutableStateFlow<List<ShowBase>>(emptyList())
     private var currentPage = 1
     // change to https://medium.com/@asia_sama/paging-3-with-kmp-kotlin-multiplatform-811541c0f297
 
@@ -79,7 +78,7 @@ class MediaBaseRepositoryImpl: MediaBaseRepository, KoinComponent {
         )
     }
 
-    override suspend fun addAsFavorite(media: ShowBaseData) {
+    override suspend fun addAsFavorite(media: ShowBase) {
         database.showsQueries.insertFavorite(
             id = media.id,
             name = media.name,
@@ -92,14 +91,31 @@ class MediaBaseRepositoryImpl: MediaBaseRepository, KoinComponent {
             release_date = media.releaseDate,
             last_access = media.lastAccess,
         )
+
+        showListState.lastOrNull()?.let { showList ->
+            val updatedList = showList.withUpdated(media)
+            showListState.emit(updatedList)
+        }
     }
 
-    override suspend fun removeFromFavorite(media: ShowBaseData) {
+    private fun List<ShowBase>.withUpdated(element: ShowBase): List<ShowBase> {
+        val indexOfElementInList = this.indexOfFirst { it.id == element.id }
+        if (indexOfElementInList < 0) {
+            return this
+        }
+        val newList = ArrayList<ShowBase>(this)
+        newList.remove(element)
+        newList.add(indexOfElementInList, element)
+        return newList
+    }
+
+    override suspend fun removeFromFavorite(media: ShowBase) {
         database.showsQueries.removeFavorite(media.id)
     }
 
-    override suspend fun registerAccess(media: ShowBaseData) {
+    override suspend fun registerAccess(media: Show) {
         val now = Clock.System.now()
+        database.showsQueries
         database.showsQueries.registerAccess(
             time = now,
             id = media.id
@@ -114,7 +130,7 @@ class MediaBaseRepositoryImpl: MediaBaseRepository, KoinComponent {
             .mapToList(coroutineContext).map { it.toMediaBaseData() }
     }
 
-    override suspend fun loadFavoriteMedia(): Flow<List<ShowBaseData>> {
+    override suspend fun loadFavoriteMedia(): Flow<List<ShowBase>> {
         return database
             .showsQueries
             .getFavorites()
@@ -123,7 +139,7 @@ class MediaBaseRepositoryImpl: MediaBaseRepository, KoinComponent {
             .map { it.toMediaBaseData() }
     }
 
-    override suspend fun loadMoreShowItems(): StateFlow<List<ShowBaseData>> {
+    override suspend fun loadMoreShowItems(): StateFlow<List<ShowBase>> {
         val apiResult = ktorfitApiService.getShows(page = currentPage) ?: emptyList()
         val result = apiResult.map { it.toShowBase() }
 
