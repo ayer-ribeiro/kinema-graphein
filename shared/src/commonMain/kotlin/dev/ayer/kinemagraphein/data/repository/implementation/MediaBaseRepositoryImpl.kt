@@ -30,7 +30,7 @@ class MediaBaseRepositoryImpl : MediaBaseRepository, KoinComponent {
     private val database: KinemaDatabase by inject()
 
     private val showListState = MutableStateFlow<List<ShowBase>>(emptyList())
-    private var currentPage = 1
+    private var currentPage = 0
     // change to https://medium.com/@asia_sama/paging-3-with-kmp-kotlin-multiplatform-811541c0f297
 
     override suspend fun searchMedia(query: String): Flow<List<ShowBase>> {

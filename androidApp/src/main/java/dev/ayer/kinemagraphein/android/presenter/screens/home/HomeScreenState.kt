@@ -6,11 +6,8 @@ import kotlinx.collections.immutable.ImmutableList
 data class HomeScreenState(
     val isLoading: Boolean,
     val isLoadingMoreItems: Boolean,
-    val isError: Boolean,
+    val hasError: Boolean,
     val favorites: ImmutableList<ShowBase>,
     val recent: ImmutableList<ShowBase>,
-    val allMediaList: ImmutableList<ShowBase>,
-    val searchResult: ImmutableList<ShowBase>,
-    val searchQuery: String,
-    val searchActiveState: Boolean
+    val allMediaList: ImmutableList<ShowBase>
 )

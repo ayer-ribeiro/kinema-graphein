@@ -30,21 +30,27 @@ class HomeViewModel : ViewModel(), KoinComponent {
     private val searchMedia: SearchMediaUseCase by inject()
     private val loadSeriesList: LoadMoreShowItemsUseCase by inject()
 
+    private val emptySearchBarState = SearchBarState(
+        searchResult = persistentListOf(),
+        searchQuery = "",
+        searchActiveState = false,
+    )
+
     private val initialState
         get() = State(
             isLoading = true,
             isLoadingMoreItems = false,
-            isError = false,
+            hasError = false,
             favorites = persistentListOf(),
             recent = persistentListOf(),
             allMediaList = persistentListOf(),
-            searchResult = persistentListOf(),
-            searchQuery = "",
-            searchActiveState = false
         )
 
     private val _uiState = MutableStateFlow(initialState)
     val uiState: StateFlow<State> = _uiState
+
+    private val _uiSearchBarState = MutableStateFlow(emptySearchBarState)
+    val uiSearchBarState: StateFlow<SearchBarState> = _uiSearchBarState
 
     private val _uiEvents = MutableSharedFlow<HomeEvents>()
     val uiEvents: Flow<HomeEvents> = _uiEvents
@@ -74,34 +80,30 @@ class HomeViewModel : ViewModel(), KoinComponent {
     }
 
     private fun onSearchQueryCleared() = viewModelScope.launch {
-        val newState = _uiState.value.copy(
-            searchResult = persistentListOf(),
-            searchQuery = "",
-            searchActiveState = false,
-        )
-        _uiState.emit(newState)
+        _uiSearchBarState.emit(emptySearchBarState)
     }
 
     private fun onSearchCalled(query: String) = viewModelScope.launch {
         val searchResult = searchMedia(query).firstOrNull() ?: emptyList()
-        val newState = _uiState.value.copy(
+
+        val newState = _uiSearchBarState.value.copy(
             searchResult = searchResult.toPersistentList(),
         )
-        _uiState.emit(newState)
+        _uiSearchBarState.emit(newState)
     }
 
     private fun onSearchQueryChanged(query: String) = viewModelScope.launch {
-        val newState = _uiState.value.copy(
+        val newState = _uiSearchBarState.value.copy(
             searchQuery = query,
         )
-        _uiState.emit(newState)
+        _uiSearchBarState.emit(newState)
     }
 
     private fun onSearchActiveStateChanged(isActive: Boolean) = viewModelScope.launch {
-        val newState = _uiState.value.copy(
+        val newState = _uiSearchBarState.value.copy(
             searchActiveState = isActive,
         )
-        _uiState.emit(newState)
+        _uiSearchBarState.emit(newState)
     }
 
     private fun onMediaClicked(media: ShowBase) = viewModelScope.launch {

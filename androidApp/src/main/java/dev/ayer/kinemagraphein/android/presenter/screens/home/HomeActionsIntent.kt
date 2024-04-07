@@ -1,16 +1,18 @@
 package dev.ayer.kinemagraphein.android.presenter.screens.home
 
+import androidx.compose.runtime.Immutable
 import dev.ayer.kinemagraphein.android.presenter.actions.ViewIntentActions
 import dev.ayer.kinemagraphein.entity.media.ShowBase
 
+@Immutable
 sealed class HomeActionsIntent: ViewIntentActions {
-    class FavoriteClicked(val media: ShowBase): HomeActionsIntent()
-    class MediaClicked(val media: ShowBase): HomeActionsIntent()
+    data class FavoriteClicked(val media: ShowBase): HomeActionsIntent()
+    data class MediaClicked(val media: ShowBase): HomeActionsIntent()
 
     data object LoadMoreItems: HomeActionsIntent()
 
-    class SearchQueryChanged(val query: String): HomeActionsIntent()
+    data class SearchQueryChanged(val query: String): HomeActionsIntent()
     data object SearchQueryCleared: HomeActionsIntent()
-    class SearchCalled(val query: String): HomeActionsIntent()
-    class SearchActiveStateChanged(val isActive: Boolean): HomeActionsIntent()
+    data class SearchCalled(val query: String): HomeActionsIntent()
+    data class SearchActiveStateChanged(val isActive: Boolean): HomeActionsIntent()
 }

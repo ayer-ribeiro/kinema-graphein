@@ -21,3 +21,30 @@ class ShowBasePreviewParameterProvider : PreviewParameterProvider<ShowBase> {
         underTheDomeMediaMock,
     ).map { it.asShowBase() }
 }
+
+class ShowBaseListPreviewParameterProvider : PreviewParameterProvider<List<ShowBase>> {
+    override val values = sequenceOf(
+        listOf(
+            personOfInterestMediaMock,
+            underTheDomeMediaMock,
+            personOfInterestMediaMock,
+            underTheDomeMediaMock,
+            personOfInterestMediaMock,
+            underTheDomeMediaMock,
+            personOfInterestMediaMock,
+            underTheDomeMediaMock,
+            personOfInterestMediaMock,
+            underTheDomeMediaMock,
+            personOfInterestMediaMock,
+            underTheDomeMediaMock,
+            personOfInterestMediaMock,
+            underTheDomeMediaMock,
+            personOfInterestMediaMock,
+            underTheDomeMediaMock,
+            personOfInterestMediaMock,
+            underTheDomeMediaMock,
+            personOfInterestMediaMock,
+            underTheDomeMediaMock,
+        ).map { it.asShowBase() }
+    )
+}
