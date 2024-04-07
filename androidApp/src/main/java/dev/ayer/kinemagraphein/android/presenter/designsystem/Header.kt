@@ -46,8 +46,8 @@ import dev.ayer.kinemagraphein.entity.media.Show
 fun Header(
     title: String,
     imageUrl: String?,
-    isFavorite: Boolean? = null,
     modifier: Modifier = Modifier,
+    isFavorite: Boolean? = null,
     onNavigateBack: () -> Unit,
     onFavoriteClick: () -> Unit,
 ) {
