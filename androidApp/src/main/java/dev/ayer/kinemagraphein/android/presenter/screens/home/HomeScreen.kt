@@ -282,8 +282,8 @@ private fun LazyListScope.FavoriteSection(
     item {
         MediaRowSection(
             mediaItems = favorites,
-            onContentClick = onFavoriteClick,
-            onFavoriteIconClick = onShowClick
+            onContentClick = onShowClick,
+            onFavoriteIconClick = onFavoriteClick
         )
     }
 }
