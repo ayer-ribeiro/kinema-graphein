@@ -49,7 +49,7 @@ fun SmallMediaItemCover(
                 MediaDescription(media = media, lines = 1)
             }
             FavoriteIcon(
-                favoritable = media,
+                isFavorite = media.isFavorite,
                 onClick = { onFavoriteIconClick(!media.isFavorite) }
             )
         }

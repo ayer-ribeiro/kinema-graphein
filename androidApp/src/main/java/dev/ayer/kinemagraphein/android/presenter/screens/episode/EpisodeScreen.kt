@@ -46,9 +46,8 @@ fun EpisodeScreen(
     LazyColumn {
         item {
             Header(
-                data = episode,
-                favoriteData = episode,
-                shouldShowFavoriteIcon = false,
+                title = episode.name,
+                imageUrl = episode.originalImageUrl,
                 onNavigateBack = { navController.popBackStack() },
                 onFavoriteClick = {}
             )

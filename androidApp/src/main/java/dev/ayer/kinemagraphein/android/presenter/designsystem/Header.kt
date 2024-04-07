@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -43,26 +44,34 @@ import dev.ayer.kinemagraphein.entity.media.Show
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun Header(
-    data: Coverable,
-    favoriteData: Favoritable,
+    title: String,
+    imageUrl: String?,
+    isFavorite: Boolean? = null,
     modifier: Modifier = Modifier,
-    shouldShowFavoriteIcon: Boolean = true,
     onNavigateBack: () -> Unit,
     onFavoriteClick: () -> Unit,
 ) {
+    val context = LocalContext.current
+    val model = remember(imageUrl) {
+        ImageRequest.Builder(context)
+            .data(imageUrl)
+            .crossfade(true)
+            .build()
+    }
+    val placeholderPainter = painterResource(
+        id = dev.ayer.kinemagraphein.android.R.drawable.media_placeholder
+    )
+
     Box(
         modifier = modifier.fillMaxWidth(),
         contentAlignment = Alignment.TopStart
     ) {
         AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(data.originalImageUrl ?: data.mediumImageUrl)
-                .crossfade(true)
-                .build(),
+            model = model,
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            placeholder = painterResource(id = dev.ayer.kinemagraphein.android.R.drawable.media_placeholder),
-            error = painterResource(id = dev.ayer.kinemagraphein.android.R.drawable.media_placeholder),
+            placeholder = placeholderPainter,
+            error = placeholderPainter,
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(3 / 2f)
@@ -83,7 +92,7 @@ fun Header(
                 titleContentColor = MaterialTheme.colorScheme.onBackground,
             ),
             title = {
-                Text(data.name)
+                Text(title)
             },
             navigationIcon = {
                 Box(
@@ -98,19 +107,18 @@ fun Header(
                     )
                 }
             },
-            actions = favoriteAction(favoriteData, shouldShowFavoriteIcon, onFavoriteClick)
+            actions = favoriteAction(isFavorite = isFavorite, onFavoriteClick)
         )
     }
 }
 
 @Composable
 private fun favoriteAction(
-    favoritable: Favoritable,
-    shouldShowFavoriteIcon: Boolean,
+    isFavorite: Boolean?,
     onFavoriteClick: () -> Unit
 ): @Composable() (RowScope.() -> Unit) = {
-    if (shouldShowFavoriteIcon) {
-        FavoriteIcon(favoritable = favoritable) {
+    if (isFavorite != null) {
+        FavoriteIcon(isFavorite = isFavorite) {
             onFavoriteClick()
         }
     }
@@ -163,11 +171,9 @@ fun HeaderPreview(
     QuantumTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
             Header(
-                data = media,
-                favoriteData = object : Favoritable {
-                    override val isFavorite get() = true
-                },
-                shouldShowFavoriteIcon = false,
+                title = "Dexter",
+                imageUrl = "https://",
+                isFavorite = true,
                 onNavigateBack = { },
                 onFavoriteClick = { },
             )

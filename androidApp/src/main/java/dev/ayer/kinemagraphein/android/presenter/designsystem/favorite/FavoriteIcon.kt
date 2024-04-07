@@ -12,19 +12,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.ayer.kinemagraphein.entity.media.Favoritable
 
 @Composable
 fun FavoriteIcon(
-    favoritable: Favoritable,
+    isFavorite: Boolean,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
-    Box (
-        modifier = modifier.size(48.dp).clickable { onClick() },
+    Box(
+        modifier = modifier
+            .size(48.dp)
+            .clickable { onClick() },
         contentAlignment = Alignment.Center
-    ){
-        if (favoritable.isFavorite) {
+    ) {
+        if (isFavorite) {
             Icon(
                 imageVector = Icons.Rounded.Favorite,
                 tint = MaterialTheme.colorScheme.primary,

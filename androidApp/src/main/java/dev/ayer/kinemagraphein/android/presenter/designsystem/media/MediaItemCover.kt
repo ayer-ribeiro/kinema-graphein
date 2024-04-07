@@ -49,7 +49,7 @@ fun MediaItemCover(
             MediaDescription(media = media, lines = 2)
         }
         FavoriteIcon(
-            favoritable = media,
+            isFavorite = media.isFavorite,
             onClick = onFavoriteIconClick
         )
     }

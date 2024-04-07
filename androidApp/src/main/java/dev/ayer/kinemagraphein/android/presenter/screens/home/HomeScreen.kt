@@ -1,6 +1,5 @@
 package dev.ayer.kinemagraphein.android.presenter.screens.home
 
-import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -39,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import dev.ayer.kinemagraphein.android.presenter.designsystem.LoadingProgress
 import dev.ayer.kinemagraphein.android.presenter.designsystem.base.Button
+import dev.ayer.kinemagraphein.android.presenter.designsystem.base.ButtonState
 import dev.ayer.kinemagraphein.android.presenter.designsystem.media.MediaGridSection
 import dev.ayer.kinemagraphein.android.presenter.designsystem.media.MediaItemCover
 import dev.ayer.kinemagraphein.android.presenter.designsystem.media.MediaRowSection
@@ -213,7 +213,7 @@ private fun LazyListScope.LoadMoreButton(
     item {
         Button(
             text = "Load more",
-            loading = isLoadingMoreItems,
+            state = if (isLoadingMoreItems) ButtonState.Loading else ButtonState.Enabled,
             onClick = onClick,
             modifier = Modifier
                 .padding(horizontal = 16.dp)
