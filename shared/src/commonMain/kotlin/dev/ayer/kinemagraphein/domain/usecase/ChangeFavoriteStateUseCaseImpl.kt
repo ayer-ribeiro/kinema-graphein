@@ -10,14 +10,16 @@ internal class ChangeFavoriteStateUseCaseImpl : ChangeFavoriteStateUseCase, Koin
 
     private val mediaBaseRepository: MediaBaseRepository by inject()
 
-    override suspend fun invoke(media: ShowBase): Boolean {
+    override suspend fun invoke(media: ShowBase) {
         val isFavorite = media.isFavorite
-        return if (isFavorite) {
+        if (isFavorite) {
             mediaBaseRepository.removeFromFavorite(media)
-            false
         } else {
             mediaBaseRepository.addAsFavorite(media)
-            true
         }
+    }
+
+    override suspend fun invoke(mediaId: Long) {
+        mediaBaseRepository.updateFavoriteState(mediaId)
     }
 }

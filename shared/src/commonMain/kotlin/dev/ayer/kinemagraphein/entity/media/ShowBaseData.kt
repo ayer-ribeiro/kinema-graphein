@@ -4,7 +4,7 @@ import dev.ayer.kinemagraphein.entity.time.Schedule
 import kotlinx.datetime.Instant
 
 interface ShowBaseData: Coverable, SearchResult {
-    override val id: String
+    override val id: Long
     override val isFavorite: Boolean
     override val name: String
     override val mediumImageUrl: String?

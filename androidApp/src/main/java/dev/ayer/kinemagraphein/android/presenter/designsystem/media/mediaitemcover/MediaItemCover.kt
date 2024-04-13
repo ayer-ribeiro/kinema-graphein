@@ -1,5 +1,6 @@
-package dev.ayer.kinemagraphein.android.presenter.designsystem.media
+package dev.ayer.kinemagraphein.android.presenter.designsystem.media.mediaitemcover
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
@@ -23,16 +24,16 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import dev.ayer.kinemagraphein.android.presenter.designsystem.favorite.FavoriteIcon
-import dev.ayer.kinemagraphein.entity.media.ShowBase
-import dev.ayer.kinemagraphein.entity.media.ShowBaseData
+import dev.ayer.kinemagraphein.android.presenter.designsystem.media.MediaDescription
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MediaItemCover(
-    media: ShowBase,
+    media: MediaItemCoverUiState,
     modifier: Modifier = Modifier,
     onContentClick: () -> Unit = {},
     onFavoriteIconClick: () -> Unit = {}
@@ -45,8 +46,8 @@ fun MediaItemCover(
             modifier = modifier,
             onClick = onContentClick
         ) {
-            MediaCover(media = media)
-            MediaDescription(media = media, lines = 2)
+            MediaCover(imageUrl = media.imageUrl)
+            MediaDescription(description = media.title, lines = 2)
         }
         FavoriteIcon(
             isFavorite = media.isFavorite,
@@ -74,34 +75,28 @@ private fun TopOverlay(modifier: Modifier = Modifier) {
 
 @Composable
 private fun MediaCover(
-    media: ShowBaseData,
+    imageUrl: String?,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
-    val model = remember(media) {
-        ImageRequest.Builder(context)
-            .data(media.mediumImageUrl)
+    val model = rememberAsyncImagePainter(
+        model = ImageRequest.Builder(context)
+            .data(imageUrl)
             .crossfade(true)
             .diskCachePolicy(CachePolicy.ENABLED)
             .build()
-    }
-
-    val painterResource = painterResource(
-        id = dev.ayer.kinemagraphein.android.R.drawable.media_placeholder
     )
-
-    Box(modifier = modifier) {
-        AsyncImage(
-            model = model,
+    
+    Box(modifier = modifier.background(Color(0xFF2a292a))) {
+        Image(
+            painter = model,
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            placeholder = painterResource,
-            error = painterResource,
             modifier = modifier
                 .aspectRatio(2f / 3f)
                 .fillMaxHeight()
                 .fillMaxSize()
-                .background(Color(0xFF2a292a))
+
         )
         TopOverlay(modifier = Modifier.align(Alignment.TopStart))
     }
@@ -112,7 +107,7 @@ private fun MediaCover(
 )
 @Composable
 fun MediaItemCoverPreview(
-    @PreviewParameter(ShowBasePreviewParameterProvider::class) media: ShowBase
+    @PreviewParameter(MediaItemCoverUiStatePreviewParameterProvider::class) media: MediaItemCoverUiState
 ) {
     MediaItemCover(
         media = media

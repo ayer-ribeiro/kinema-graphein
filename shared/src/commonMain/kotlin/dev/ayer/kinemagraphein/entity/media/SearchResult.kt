@@ -1,7 +1,7 @@
 package dev.ayer.kinemagraphein.entity.media
 
 interface SearchResult: Coverable, Favoritable {
-    val id: String
+    val id: Long
     val summary: String?
     val releaseDate: String?
     override val isFavorite: Boolean

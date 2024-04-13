@@ -4,7 +4,7 @@ import kotlin.collections.List;
 import kotlinx.datetime.Instant;
 
 CREATE TABLE shows (
-    id TEXT NOT NULL PRIMARY KEY,
+    id INTEGER NOT NULL PRIMARY KEY,
     name TEXT NOT NULL,
     summary TEXT DEFAULT NULL,
 --     premiered TEXT DEFAULT NULL,
@@ -22,8 +22,17 @@ CREATE INDEX shows_id ON shows(id);
 CREATE INDEX shows_name ON shows(name);
 CREATE INDEX shows_genres ON shows(genres);
 
-getAllShows:
-SELECT * FROM shows;
+getShowsCount:
+SELECT COUNT(*) FROM shows;
+
+getShows:
+SELECT * FROM shows
+ORDER BY id ASC
+LIMIT :resultsPerPage;
+
+getShowsFromList:
+SELECT * FROM shows
+WHERE id IN :list;
 
 getShow:
 SELECT * FROM shows
@@ -40,6 +49,11 @@ getFavorites:
 SELECT * FROM shows
 WHERE is_favorite <> 0;
 
+getLastIdSync:
+SELECT MAX(id) AS lastId
+FROM shows
+WHERE id + 1 NOT IN (SELECT id FROM shows);
+
 getRecents:
 SELECT * FROM shows
 WHERE last_access > 0
@@ -50,38 +64,8 @@ registerAccess:
 UPDATE shows SET last_access = :time
 WHERE id = :id;
 
-insertFavorite:
-INSERT OR REPLACE INTO shows(
-    id,
-    name,
-    summary,
---     premiered,
-    genres,
-    schedule_time,
-    schedule_days,
-    medium_image_url,
-    original_image_url,
-    release_date,
-    last_access,
-    is_favorite
-)
-VALUES (
-    :id,
-    :name,
-    :summary,
---     :premiered,
-    :genres,
-    :schedule_time,
-    :schedule_days,
-    :medium_image_url,
-    :original_image_url,
-    :release_date,
-    :last_access,
-    1
-);
-
 insert:
-INSERT OR REPLACE INTO shows(
+INSERT OR IGNORE INTO shows(
     id,
     name,
     summary,
@@ -107,9 +91,13 @@ VALUES (
     :original_image_url,
     :release_date,
     :last_access,
-    is_favorite
-);
+    : is_favorite
+) ;
 
-removeFavorite:
-UPDATE shows SET is_favorite = 0
+updateFavorite:
+UPDATE shows
+SET is_favorite = CASE
+    WHEN is_favorite = 1 THEN 0
+    ELSE 1
+END
 WHERE id = :id;

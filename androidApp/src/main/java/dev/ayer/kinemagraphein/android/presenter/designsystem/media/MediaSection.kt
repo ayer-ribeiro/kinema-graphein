@@ -1,5 +1,6 @@
 package dev.ayer.kinemagraphein.android.presenter.designsystem.media
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,14 +26,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dev.ayer.kinemagraphein.android.presenter.adapter.asMediaItemCoverUiState
+import dev.ayer.kinemagraphein.android.presenter.designsystem.media.mediaitemcover.MediaItemCover
+import dev.ayer.kinemagraphein.android.presenter.designsystem.media.mediaitemcover.MediaItemCoverUiState
 import dev.ayer.kinemagraphein.entity.media.ShowBase
+import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 fun MediaGridSection(
-    mediaItems: List<ShowBase>,
-    onContentClick: (ShowBase) -> Unit,
-    onFavoriteIconClick: (ShowBase) -> Unit
+    mediaItems: ImmutableList<MediaItemCoverUiState>,
+    onContentClick: (MediaItemCoverUiState) -> Unit,
+    onFavoriteIconClick: (MediaItemCoverUiState) -> Unit
 ) {
+    Log.d("HomeScreen", "MediaGridSection")
     GridSection(mediaItems) { media ->
         val onContentItemClick = remember(media) {
             { onContentClick(media) }
@@ -50,9 +56,9 @@ fun MediaGridSection(
 
 @Composable
 fun MediaRowSection(
-    mediaItems: List<ShowBase>,
-    onContentClick: (ShowBase) -> Unit,
-    onFavoriteIconClick: (ShowBase) -> Unit,
+    mediaItems: ImmutableList<MediaItemCoverUiState>,
+    onContentClick: (MediaItemCoverUiState) -> Unit,
+    onFavoriteIconClick: (MediaItemCoverUiState) -> Unit,
 ) {
     LazyRowSection(mediaItems) { media ->
         val onContentItemClick = remember(media) {
@@ -73,9 +79,9 @@ fun MediaRowSection(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun MediaFlowRowSection(
-    mediaItems: List<ShowBase>,
-    onContentClick: (ShowBase) -> Unit,
-    onFavoriteIconClick: (ShowBase) -> Unit,
+    mediaItems: ImmutableList<MediaItemCoverUiState>,
+    onContentClick: (MediaItemCoverUiState) -> Unit,
+    onFavoriteIconClick: (MediaItemCoverUiState) -> Unit,
 ) {
     FlowRowSection(mediaItems) { media ->
         val onContentItemClick = remember(media) {
@@ -95,9 +101,9 @@ fun MediaFlowRowSection(
 
 @Composable
 fun MediaLazyFlowSection(
-    mediaItems: List<ShowBase>,
-    onContentClick: (ShowBase) -> Unit,
-    onFavoriteIconClick: (ShowBase) -> Unit,
+    mediaItems: ImmutableList<MediaItemCoverUiState>,
+    onContentClick: (MediaItemCoverUiState) -> Unit,
+    onFavoriteIconClick: (MediaItemCoverUiState) -> Unit,
 ) {
     LazyFlowSection(mediaItems) { media ->
         val onContentItemClick = remember(media) {
@@ -116,7 +122,7 @@ fun MediaLazyFlowSection(
 }
 
 @Composable
-fun <T> LazyRowSection(items: List<T>, itemContent: @Composable LazyItemScope.(item: T) -> Unit) {
+fun <T> LazyRowSection(items: ImmutableList<T>, itemContent: @Composable LazyItemScope.(item: T) -> Unit) {
     LazyRow(
         contentPadding = PaddingValues(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -129,7 +135,7 @@ fun <T> LazyRowSection(items: List<T>, itemContent: @Composable LazyItemScope.(i
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun <T> FlowRowSection(items: List<T>, itemContent: @Composable FlowRowScope.(item: T) -> Unit) {
+fun <T> FlowRowSection(items: ImmutableList<T>, itemContent: @Composable FlowRowScope.(item: T) -> Unit) {
     FlowRow(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -143,7 +149,7 @@ fun <T> FlowRowSection(items: List<T>, itemContent: @Composable FlowRowScope.(it
 }
 
 @Composable
-fun <T> LazyFlowSection(items: List<T>, itemContent: @Composable RowScope.(item: T) -> Unit) {
+fun <T> LazyFlowSection(items: ImmutableList<T>, itemContent: @Composable RowScope.(item: T) -> Unit) {
     LazyColumn {
         items(items.size / 3) { i ->
             Row {
@@ -156,7 +162,7 @@ fun <T> LazyFlowSection(items: List<T>, itemContent: @Composable RowScope.(item:
 }
 
 @Composable
-fun <T> GridSection(items: List<T>, itemContent: @Composable LazyGridItemScope.(item: T) -> Unit) {
+fun <T> GridSection(items: ImmutableList<T>, itemContent: @Composable LazyGridItemScope.(item: T) -> Unit) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
         contentPadding = PaddingValues(12.dp),
@@ -186,7 +192,7 @@ fun FlowGridView(rows: Int, columns: Int) {
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
-                    repeat(columns) { i ->
+                    repeat(columns) { _ ->
                         Box(
                             modifier = Modifier
                                 .fillMaxHeight()

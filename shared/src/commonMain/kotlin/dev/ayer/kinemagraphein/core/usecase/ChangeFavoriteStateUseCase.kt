@@ -3,5 +3,7 @@ package dev.ayer.kinemagraphein.core.usecase
 import dev.ayer.kinemagraphein.entity.media.ShowBase
 
 interface ChangeFavoriteStateUseCase {
-    suspend operator fun invoke(media: ShowBase): Boolean
+    suspend operator fun invoke(media: ShowBase)
+
+    suspend operator fun invoke(mediaId: Long)
 }

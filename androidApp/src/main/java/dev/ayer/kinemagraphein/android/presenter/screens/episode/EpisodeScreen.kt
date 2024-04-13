@@ -23,13 +23,13 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun EpisodeScreen(
     navController: NavHostController,
-    seriesId: String,
+    showId: Long,
     episodeSeason: Int,
     episodeNumber: Int,
     viewModel: EpisodeViewModel = koinViewModel(
         parameters = {
             parametersOf(
-                seriesId,
+                showId,
                 episodeSeason,
                 episodeNumber
             )
@@ -103,7 +103,7 @@ private fun Summary(episode: Episode) {
 //            Surface(color = MaterialTheme.colorScheme.background) {
 //                EpisodeScreen(
 //                    navController = rememberNavController(),
-//                    seriesId = "1",
+//                    showId = "1",
 //                    episodeNumber = 1,
 //                    episodeSeason = 1
 //                )

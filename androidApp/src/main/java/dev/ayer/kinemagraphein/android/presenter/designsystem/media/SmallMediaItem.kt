@@ -46,7 +46,7 @@ fun SmallMediaItemCover(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 SmallMediaCover(media = media)
-                MediaDescription(media = media, lines = 1)
+                MediaDescription(description = media.name, lines = 1)
             }
             FavoriteIcon(
                 isFavorite = media.isFavorite,

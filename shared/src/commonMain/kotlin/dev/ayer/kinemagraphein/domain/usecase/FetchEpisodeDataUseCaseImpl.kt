@@ -11,7 +11,7 @@ internal class FetchEpisodeDataUseCaseImpl: FetchEpisodeDataUseCase, KoinCompone
 
     private val episodeRepository: EpisodeRepository by inject()
 
-    override suspend fun invoke(seriesId: String, season: Int, number: Int): Flow<Episode?> {
-        return episodeRepository.fetch(showId = seriesId, season = season, number = number)
+    override suspend fun invoke(showId: String, season: Int, number: Int): Flow<Episode?> {
+        return episodeRepository.fetch(showId = showId, season = season, number = number)
     }
 }

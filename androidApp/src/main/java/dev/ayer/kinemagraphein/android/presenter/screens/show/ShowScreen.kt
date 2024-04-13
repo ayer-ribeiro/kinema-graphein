@@ -59,8 +59,8 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun ShowScreen(
     navController: NavHostController,
-    seriesId: String,
-    viewModel: ShowScreenViewModel = koinViewModel(parameters = { parametersOf(seriesId) })
+    showId: Long,
+    viewModel: ShowScreenViewModel = koinViewModel(parameters = { parametersOf(showId) })
 ) {
     val screenState by viewModel.uiState.collectAsState()
 
@@ -78,23 +78,12 @@ fun ShowScreen(
             when (event) {
                 is ShowEvents.Navigation.NavigateToEpisodeDetails -> {
                     navController.navigateSingleTopEpisode(
-                        seriesId = seriesId,
+                        showId = showId,
                         season = event.episode.season,
                         number = event.episode.number
                     )
                 }
             }
-        }
-    }
-    val onEpisodeClick: (ShowScreenEpisodeData) -> Unit = remember(screenState) {
-        { episode ->
-            viewModel.onSelect(episode)
-        }
-    }
-
-    val onSelectSeason: (ShowScreenSeasonData) -> Unit = remember(screenState) {
-        { season ->
-            viewModel.onSelect(season)
         }
     }
 
@@ -107,6 +96,24 @@ fun ShowScreen(
         return
     }
 
+    val onEpisodeClick: (ShowScreenEpisodeData) -> Unit = remember(screenState) {
+        { episode ->
+            viewModel.onSelect(episode)
+        }
+    }
+
+    val onSelectSeason: (ShowScreenSeasonData) -> Unit = remember(screenState) {
+        { season ->
+            viewModel.onSelect(season)
+        }
+    }
+
+    val onFavoriteClick: () -> Unit = remember(screenState) {
+        {
+            viewModel.onFavoriteClick(show)
+        }
+    }
+
     ShowScreenContent(
         showData = show,
         seasonsData = seasons,
@@ -114,6 +121,7 @@ fun ShowScreen(
         onBackClick = onBackClick,
         onEpisodeClick = onEpisodeClick,
         onSelectSeason = onSelectSeason,
+        onFavoriteClick = onFavoriteClick
     )
 }
 
@@ -123,6 +131,7 @@ private fun ShowScreenContent(
     showData: ShowScreenData,
     seasonsData: ImmutableList<ShowScreenSeasonData>,
     onBackClick: () -> Unit,
+    onFavoriteClick: () -> Unit,
     onEpisodeClick: (ShowScreenEpisodeData) -> Unit,
     onSelectSeason: (ShowScreenSeasonData) -> Unit,
 ) {
@@ -135,7 +144,7 @@ private fun ShowScreenContent(
                 title = showData.name,
                 imageUrl = showData.imageUrl,
                 isFavorite = showData.isFavorite,
-                onFavoriteClick = {},
+                onFavoriteClick = onFavoriteClick,
                 onNavigateBack = onBackClick,
             )
         }
@@ -341,7 +350,7 @@ private fun Schedule(
     showSystemUi = true
 )
 @Composable
-fun SeriesScreenPreview(
+fun ShowScreenPreview(
     @PreviewParameter(ShowScreenStatePreviewParameterProvider::class)
     state: ShowScreenState
 ) {
@@ -353,7 +362,8 @@ fun SeriesScreenPreview(
                 currentSeason = state.seasons[0],
                 onBackClick = {},
                 onEpisodeClick = {},
-                onSelectSeason = {}
+                onSelectSeason = {},
+                onFavoriteClick = {}
             )
         }
     }

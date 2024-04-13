@@ -1,5 +1,6 @@
 package dev.ayer.kinemagraphein.android.presenter.designsystem.text
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -15,6 +16,7 @@ fun SectionTitle(
     text: String,
     modifier: Modifier = Modifier
 ) {
+    Log.d("HomeScreen", "SectionTitle")
     Box (modifier = modifier) {
         Text(
             text = text,

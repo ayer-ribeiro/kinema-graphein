@@ -171,9 +171,9 @@ fun HeaderPreview(
     QuantumTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
             Header(
-                title = "Dexter",
-                imageUrl = "https://",
-                isFavorite = true,
+                title = media.name,
+                imageUrl = media.originalImageUrl,
+                isFavorite = media.isFavorite,
                 onNavigateBack = { },
                 onFavoriteClick = { },
             )

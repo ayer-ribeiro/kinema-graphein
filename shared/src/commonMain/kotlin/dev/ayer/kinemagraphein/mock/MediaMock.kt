@@ -8,7 +8,7 @@ import kotlinx.datetime.Clock
 
 val underTheDomeMediaMock
     get() = Show(
-        id = "1",
+        id = 1,
         isFavorite = false,
         summary = "<p><b>Under the Dome</b> is the story of a small town that is suddenly and inexplicably sealed off from the rest of the world by an enormous transparent dome. The town's inhabitants must deal with surviving the post-apocalyptic conditions while searching for answers about the dome, where it came from and if and when it will go away.</p>",
         releaseDate = "2013-06-25",
@@ -162,7 +162,7 @@ val underTheDomeMediaMock
 
 val personOfInterestMediaMock
     get() = Show(
-        id = "2",
+        id = 1,
         isFavorite = true,
         summary = "<p>You are being watched. The government has a secret system, a machine that spies on you every hour of every day. I know because I built it. I designed the Machine to detect acts of terror but it sees everything. Violent crimes involving ordinary people. People like you. Crimes the government considered \\\"irrelevant\\\". They wouldn't act so I decided I would. But I needed a partner. Someone with the skills to intervene. Hunted by the authorities, we work in secret. You'll never find us. But victim or perpetrator, if your number is up, we'll find you.</p>",
         releaseDate = "2020-10-26",

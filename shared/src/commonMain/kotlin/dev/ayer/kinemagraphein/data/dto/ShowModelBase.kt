@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ShowModelBase(
-    val id: Int,
+    val id: Long,
     val name: String,
     val genres: List<String>,
     val schedule: ScheduleModel,

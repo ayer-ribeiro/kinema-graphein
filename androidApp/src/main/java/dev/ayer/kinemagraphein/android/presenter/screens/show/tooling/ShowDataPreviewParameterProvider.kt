@@ -6,7 +6,7 @@ import kotlinx.collections.immutable.toImmutableList
 
 class ShowDataPreviewParameterProvider : PreviewParameterProvider<ShowScreenData> {
     private val showScreenData = ShowScreenData(
-        id = "123",
+        id = 123,
         isFavorite = false,
         summary = "Now, the list will remain static until the app bar is completely collapsed since the app bar offset is consuming the whole delta and there’s nothing left for the list to use.",
         releaseDate = "30 fev",

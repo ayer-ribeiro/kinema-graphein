@@ -2,15 +2,16 @@ package dev.ayer.kinemagraphein.android.presenter.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dev.ayer.kinemagraphein.android.presenter.adapter.asMediaItemCoverUiState
+import dev.ayer.kinemagraphein.android.presenter.designsystem.media.mediaitemcover.MediaItemCoverUiState
 import dev.ayer.kinemagraphein.core.usecase.ChangeFavoriteStateUseCase
 import dev.ayer.kinemagraphein.core.usecase.LoadFavoritesUseCase
 import dev.ayer.kinemagraphein.core.usecase.LoadMoreShowItemsUseCase
 import dev.ayer.kinemagraphein.core.usecase.LoadRecentUseCase
 import dev.ayer.kinemagraphein.core.usecase.SearchMediaUseCase
-import dev.ayer.kinemagraphein.entity.media.ShowBase
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +29,7 @@ class HomeViewModel : ViewModel(), KoinComponent {
     private val loadRecent: LoadRecentUseCase by inject()
     private val loadFavorites: LoadFavoritesUseCase by inject()
     private val searchMedia: SearchMediaUseCase by inject()
-    private val loadSeriesList: LoadMoreShowItemsUseCase by inject()
+    private val loadShowsList: LoadMoreShowItemsUseCase by inject()
 
     private val emptySearchBarState = SearchBarState(
         searchResult = persistentListOf(),
@@ -73,48 +74,50 @@ class HomeViewModel : ViewModel(), KoinComponent {
         }
     }
 
-    private fun loadMoreItems() = viewModelScope.launch {
+    private fun loadMoreItems() = viewModelScope.launch(Dispatchers.IO) {
         if (uiState.value.isLoadingMoreItems) return@launch
         emitLoadingMoreItemsState()
-        loadSeriesList()
+        collectShows()
     }
 
-    private fun onSearchQueryCleared() = viewModelScope.launch {
+    private fun onSearchQueryCleared() = viewModelScope.launch(Dispatchers.Default) {
         _uiSearchBarState.emit(emptySearchBarState)
     }
 
-    private fun onSearchCalled(query: String) = viewModelScope.launch {
+    private fun onSearchCalled(query: String) = viewModelScope.launch(Dispatchers.IO) {
         val searchResult = searchMedia(query).firstOrNull() ?: emptyList()
 
         val newState = _uiSearchBarState.value.copy(
-            searchResult = searchResult.toPersistentList(),
+            searchResult = searchResult
+                .map { it.asMediaItemCoverUiState() }
+                .toImmutableList()
         )
         _uiSearchBarState.emit(newState)
     }
 
-    private fun onSearchQueryChanged(query: String) = viewModelScope.launch {
+    private fun onSearchQueryChanged(query: String) = viewModelScope.launch(Dispatchers.Default) {
         val newState = _uiSearchBarState.value.copy(
             searchQuery = query,
         )
         _uiSearchBarState.emit(newState)
     }
 
-    private fun onSearchActiveStateChanged(isActive: Boolean) = viewModelScope.launch {
+    private fun onSearchActiveStateChanged(isActive: Boolean) = viewModelScope.launch(Dispatchers.Default) {
         val newState = _uiSearchBarState.value.copy(
             searchActiveState = isActive,
         )
         _uiSearchBarState.emit(newState)
     }
 
-    private fun onMediaClicked(media: ShowBase) = viewModelScope.launch {
-        val event = HomeEvents.Navigation.NavigateToSeriesDetails(media.id)
+    private fun onMediaClicked(media: MediaItemCoverUiState) = viewModelScope.launch(Dispatchers.Default) {
+        val event = HomeEvents.Navigation.NavigateToShowDetails(media.id)
         _uiEvents.emit(event)
     }
 
     private fun onFavoriteClicked(
-        media: ShowBase,
-    ) = viewModelScope.launch {
-        changeFavoriteState(media)
+        media: MediaItemCoverUiState,
+    ) = viewModelScope.launch((Dispatchers.IO)) {
+        changeFavoriteState(media.id)
     }
 
     private suspend fun emitLoadingMoreItemsState() {
@@ -122,28 +125,32 @@ class HomeViewModel : ViewModel(), KoinComponent {
         _uiState.emit(loadingState)
     }
 
-    private fun collectFavorite() = viewModelScope.launch {
+    private fun collectFavorite() = viewModelScope.launch(Dispatchers.IO) {
         loadFavorites().collect { favorite ->
             val newFavoriteState = _uiState.value.copy(
-                favorites = favorite.toImmutableList()
+                favorites = favorite.map { it.asMediaItemCoverUiState() }.toImmutableList()
             )
             _uiState.emit(newFavoriteState)
         }
     }
 
-    private fun collectRecent() = viewModelScope.launch {
+    private fun collectRecent() = viewModelScope.launch(Dispatchers.IO) {
         loadRecent().collect { recent ->
             val newRecentState = _uiState.value.copy(
-                recent = recent.toImmutableList()
+                recent = recent
+                    .map { it.asMediaItemCoverUiState() }
+                    .toImmutableList()
             )
             _uiState.emit(newRecentState)
         }
     }
 
-    private fun collectShows() = viewModelScope.launch {
-        loadSeriesList().collect {
+    private fun collectShows() = viewModelScope.launch(Dispatchers.IO) {
+        loadShowsList().collect { loadedShows ->
             val newState = _uiState.value.copy(
-                allMediaList = it.toImmutableList(),
+                allMediaList = loadedShows
+                    .map { it.asMediaItemCoverUiState() }
+                    .toImmutableList(),
                 isLoading = false,
                 isLoadingMoreItems = false,
             )

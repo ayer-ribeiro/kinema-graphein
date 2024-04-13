@@ -17,12 +17,12 @@ interface KtorfitApiService {
 
     @GET("shows")
     suspend fun getShows(
-        @Query("page") page: Int
+        @Query("page") page: Long
     ): List<ShowModelBase>?
 
     @GET("shows/{showId}?embed[]=episodes&embed[]=seasons")
     suspend fun getShow(
-        @Path("showId") showId: String
+        @Path("showId") showId: Long
     ): ShowModelComplete?
 
     @GET("shows/{showId}/episodebynumber")

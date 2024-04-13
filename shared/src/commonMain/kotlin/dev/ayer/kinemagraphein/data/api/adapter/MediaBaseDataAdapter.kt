@@ -28,7 +28,7 @@ fun ShowModelBase.toMediaBaseData(
     isFavorite: Boolean,
     lastAccess: Instant?
 ) = ShowBase(
-    id = id.toString(),
+    id = id,
     name = name,
     isFavorite = isFavorite,
     mediumImageUrl = image?.medium,

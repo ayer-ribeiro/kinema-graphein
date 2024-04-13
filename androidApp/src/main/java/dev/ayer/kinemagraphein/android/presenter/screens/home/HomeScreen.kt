@@ -40,13 +40,13 @@ import dev.ayer.kinemagraphein.android.presenter.designsystem.LoadingProgress
 import dev.ayer.kinemagraphein.android.presenter.designsystem.base.Button
 import dev.ayer.kinemagraphein.android.presenter.designsystem.base.ButtonState
 import dev.ayer.kinemagraphein.android.presenter.designsystem.media.MediaGridSection
-import dev.ayer.kinemagraphein.android.presenter.designsystem.media.MediaItemCover
 import dev.ayer.kinemagraphein.android.presenter.designsystem.media.MediaRowSection
-import dev.ayer.kinemagraphein.android.presenter.designsystem.media.ShowBaseListPreviewParameterProvider
+import dev.ayer.kinemagraphein.android.presenter.designsystem.media.mediaitemcover.MediaItemCover
+import dev.ayer.kinemagraphein.android.presenter.designsystem.media.mediaitemcover.MediaItemCoverUiState
+import dev.ayer.kinemagraphein.android.presenter.designsystem.media.mediaitemcover.MediaItemCoverUiStatePreviewParameterProvider
 import dev.ayer.kinemagraphein.android.presenter.designsystem.text.SectionTitle
-import dev.ayer.kinemagraphein.android.presenter.navigation.navigateSingleTopToSeries
+import dev.ayer.kinemagraphein.android.presenter.navigation.navigateSingleTopToShow
 import dev.ayer.kinemagraphein.android.presenter.theme.QuantumTheme
-import dev.ayer.kinemagraphein.entity.media.ShowBase
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import org.koin.androidx.compose.koinViewModel
@@ -78,8 +78,8 @@ fun HomeScreen(
     LaunchedEffect(Unit) {
         viewModel.uiEvents.collect {
             when (it) {
-                is HomeEvents.Navigation.NavigateToSeriesDetails -> {
-                    navController.navigateSingleTopToSeries(
+                is HomeEvents.Navigation.NavigateToShowDetails -> {
+                    navController.navigateSingleTopToShow(
                         it.mediaId
                     )
                 }
@@ -89,9 +89,9 @@ fun HomeScreen(
     // endregion
 
     // region Search Bar callbacks
-    val onSearchBarContentClick: (ShowBase) -> Unit =
+    val onSearchBarContentClick: (MediaItemCoverUiState) -> Unit =
         remember(searchBarState) { { viewModel.onAction(MediaClicked(it)) } }
-    val onSearchBarFavoriteIconClick: (ShowBase) -> Unit =
+    val onSearchBarFavoriteIconClick: (MediaItemCoverUiState) -> Unit =
         remember(searchBarState) { { viewModel.onAction(FavoriteClicked(it)) } }
     val onSearchBarClearIconClick: () -> Unit =
         remember(searchBarState) { { viewModel.onAction(SearchQueryCleared) } }
@@ -107,9 +107,9 @@ fun HomeScreen(
     val onErrorTryAgainButtonClick: () -> Unit =
         remember(screenState) { { viewModel.onAction(HomeActionsIntent.LoadMoreItems) } }
 
-    val onShowClick: (ShowBase) -> Unit =
+    val onShowClick: (MediaItemCoverUiState) -> Unit =
         remember(screenState) { { viewModel.onAction(MediaClicked(it)) } }
-    val onFavoriteClick: (ShowBase) -> Unit =
+    val onFavoriteClick: (MediaItemCoverUiState) -> Unit =
         remember(screenState) { { viewModel.onAction(FavoriteClicked(it)) } }
 
     val onLoadMoreButtonClick: () -> Unit =
@@ -151,12 +151,12 @@ fun HomeScreen(
 
 @Composable
 private fun ContentState(
-    recent: ImmutableList<ShowBase>,
-    favorites: ImmutableList<ShowBase>,
-    allMediaList: ImmutableList<ShowBase>,
+    recent: ImmutableList<MediaItemCoverUiState>,
+    favorites: ImmutableList<MediaItemCoverUiState>,
+    allMediaList: ImmutableList<MediaItemCoverUiState>,
     isLoadingMoreItems: Boolean,
-    onShowClick: (ShowBase) -> Unit,
-    onFavoriteClick: (ShowBase) -> Unit,
+    onShowClick: (MediaItemCoverUiState) -> Unit,
+    onFavoriteClick: (MediaItemCoverUiState) -> Unit,
     onLoadMoreButtonClick: () -> Unit
 ) {
     LazyColumn(
@@ -226,9 +226,9 @@ private fun LazyListScope.LoadMoreButton(
 @OptIn(ExperimentalFoundationApi::class)
 @Suppress("FunctionName")
 private fun LazyListScope.AllMediaList(
-    allMediaList: List<ShowBase>,
-    onShowClick: (ShowBase) -> Unit = {},
-    onFavoriteClick: (ShowBase) -> Unit = {}
+    allMediaList: ImmutableList<MediaItemCoverUiState>,
+    onShowClick: (MediaItemCoverUiState) -> Unit = {},
+    onFavoriteClick: (MediaItemCoverUiState) -> Unit = {}
 ) {
     stickyHeader {
         SectionTitle(
@@ -241,6 +241,7 @@ private fun LazyListScope.AllMediaList(
     item {
         Spacer(modifier = Modifier.size(16.dp))
     }
+
     items(allMediaList.size / 3) { i ->
         Row(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -267,11 +268,11 @@ private fun LazyListScope.AllMediaList(
 @OptIn(ExperimentalFoundationApi::class)
 @Suppress("FunctionName")
 private fun LazyListScope.FavoriteSection(
-    favorites: List<ShowBase>,
-    onShowClick: (ShowBase) -> Unit = {},
-    onFavoriteClick: (ShowBase) -> Unit = {}
+    favorites: ImmutableList<MediaItemCoverUiState>,
+    onShowClick: (MediaItemCoverUiState) -> Unit = {},
+    onFavoriteClick: (MediaItemCoverUiState) -> Unit = {}
 ) {
-    stickyHeader {
+    item {
         SectionTitle(
             text = "Favorites",
             modifier = Modifier
@@ -291,11 +292,11 @@ private fun LazyListScope.FavoriteSection(
 @OptIn(ExperimentalFoundationApi::class)
 @Suppress("FunctionName")
 private fun LazyListScope.RecentSection(
-    recent: List<ShowBase>,
-    onShowClick: (ShowBase) -> Unit = {},
-    onFavoriteClick: (ShowBase) -> Unit = {}
+    recent: ImmutableList<MediaItemCoverUiState>,
+    onShowClick: (MediaItemCoverUiState) -> Unit = {},
+    onFavoriteClick: (MediaItemCoverUiState) -> Unit = {}
 ) {
-    stickyHeader {
+    item {
         SectionTitle(
             text = "Recent",
             modifier = Modifier
@@ -316,8 +317,8 @@ private fun LazyListScope.RecentSection(
 @OptIn(ExperimentalMaterial3Api::class)
 private fun AppSearchBar(
     state: SearchBarState,
-    onContentClick: (ShowBase) -> Unit,
-    onFavoriteIconClick: (ShowBase) -> Unit,
+    onContentClick: (MediaItemCoverUiState) -> Unit,
+    onFavoriteIconClick: (MediaItemCoverUiState) -> Unit,
     onClearIconClick: () -> Unit,
     onQueryChange: (String) -> Unit,
     onSearch: (String) -> Unit,
@@ -383,7 +384,7 @@ private fun SearchClearIcon(
 )
 @Composable
 fun ContentStatePreview(
-    @PreviewParameter(ShowBaseListPreviewParameterProvider::class) showData: List<ShowBase>
+    @PreviewParameter(MediaItemCoverUiStatePreviewParameterProvider::class) showData: List<MediaItemCoverUiState>
 ) {
     QuantumTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
@@ -408,13 +409,13 @@ fun ContentStatePreview(
 )
 @Composable
 fun ContentStatePreview2(
-    @PreviewParameter(ShowBaseListPreviewParameterProvider::class) showData: List<ShowBase>
+    @PreviewParameter(MediaItemCoverUiStatePreviewParameterProvider::class) showData: List<MediaItemCoverUiState>
 ) {
     QuantumTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
             ContentState(
-                recent = emptyList<ShowBase>().toImmutableList(),
-                favorites = emptyList<ShowBase>().toImmutableList(),
+                recent = emptyList<MediaItemCoverUiState>().toImmutableList(),
+                favorites = emptyList<MediaItemCoverUiState>().toImmutableList(),
                 allMediaList = showData.subList(0, 6).toImmutableList(),
                 isLoadingMoreItems = true,
                 onShowClick = {},

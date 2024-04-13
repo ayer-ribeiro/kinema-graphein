@@ -7,16 +7,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import dev.ayer.kinemagraphein.entity.media.ShowBaseData
 
 @Composable
 fun MediaDescription(
-    media: ShowBaseData,
+    description: String,
     lines: Int,
     modifier: Modifier = Modifier
 ) {
     Text(
-        text = media.name,
+        text = description,
         textAlign = TextAlign.Left,
         minLines = lines,
         maxLines = lines,

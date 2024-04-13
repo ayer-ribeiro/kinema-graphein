@@ -8,8 +8,8 @@ object Home : Destination {
     override val route = "home"
 }
 
-object Series : Destination {
-    override val route = "series"
+object Show : Destination {
+    override val route = "show"
 }
 
 object Episode : Destination {

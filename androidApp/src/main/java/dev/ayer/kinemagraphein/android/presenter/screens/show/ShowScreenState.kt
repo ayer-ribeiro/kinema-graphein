@@ -11,7 +11,7 @@ data class ShowScreenState(
 )
 
 data class ShowScreenData(
-    val id: String,
+    val id: Long,
     val isFavorite: Boolean,
     val summary: String? = null,
     val releaseDate: String? = null,

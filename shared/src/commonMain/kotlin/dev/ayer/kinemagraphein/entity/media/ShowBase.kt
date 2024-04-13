@@ -4,7 +4,7 @@ import dev.ayer.kinemagraphein.entity.time.Schedule
 import kotlinx.datetime.Instant
 
 data class ShowBase(
-    override val id: String,
+    override val id: Long,
     override val isFavorite: Boolean,
     override val summary: String? = null,
     override val releaseDate: String? = null,

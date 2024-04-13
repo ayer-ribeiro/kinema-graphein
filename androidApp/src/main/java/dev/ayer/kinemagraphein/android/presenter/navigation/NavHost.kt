@@ -25,36 +25,36 @@ fun AppNavHost(
             HomeScreen(navController)
         }
         composable(
-            route = "${Series.route}/{seriesId}",
+            route = "${Show.route}/{showId}",
             arguments = listOf(
-                navArgument("seriesId") { type = NavType.StringType},
+                navArgument("showId") { type = NavType.LongType},
             )
         ) { backStackEntry ->
-            val seriesId = backStackEntry.arguments!!.getString("seriesId")!!
-            ShowScreen(navController, seriesId)
+            val showId = backStackEntry.arguments!!.getLong("showId")
+            ShowScreen(navController, showId)
         }
         composable(
-            route = "${Episode.route}/{seriesId}/{season}/{number}",
+            route = "${Episode.route}/{showId}/{season}/{number}",
             arguments = listOf(
-                navArgument("seriesId"){ type = NavType.StringType },
+                navArgument("showId"){ type = NavType.LongType },
                 navArgument("season"){ type = NavType.IntType },
                 navArgument("number"){ type = NavType.IntType },
             )
         ) { backStackEntry ->
-            val seriesId = backStackEntry.arguments!!.getString("seriesId")!!
+            val showId = backStackEntry.arguments!!.getLong("showId")
             val season = backStackEntry.arguments!!.getInt("season")
             val number = backStackEntry.arguments!!.getInt("number")
-            EpisodeScreen(navController, seriesId, season, number)
+            EpisodeScreen(navController, showId, season, number)
         }
     }
 }
 
 fun NavHostController.navigateSingleTopToHome() = navigateSingleTopTo(Home.route)
-fun NavHostController.navigateSingleTopEpisode(seriesId: String, season: Int, number: Int) {
-    navigateSingleTopTo("${Episode.route}/$seriesId/$season/$number")
+fun NavHostController.navigateSingleTopEpisode(showId: Long, season: Int, number: Int) {
+    navigateSingleTopTo("${Episode.route}/$showId/$season/$number")
 }
-fun NavHostController.navigateSingleTopToSeries(id: String) {
-    navigateSingleTopTo("${Series.route}/$id")
+fun NavHostController.navigateSingleTopToShow(id: Long) {
+    navigateSingleTopTo("${Show.route}/$id")
 }
 
 private fun NavHostController.navigateSingleTopTo(route: String) =

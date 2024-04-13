@@ -26,7 +26,7 @@ fun ShowModelComplete.toShow(
     lastAccessed: Instant?,
     isFavorite: Boolean
 ) = Show(
-    id = id.toString(),
+    id = id,
     name = name,
     isFavorite = isFavorite,
     mediumImageUrl = image?.medium,

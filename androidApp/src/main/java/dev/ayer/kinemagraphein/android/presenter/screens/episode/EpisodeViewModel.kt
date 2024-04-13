@@ -13,7 +13,7 @@ import org.koin.core.component.inject
 typealias State = EpisodeScreenState
 
 class EpisodeViewModel(
-    private val seriesId: String,
+    private val showId: String,
     private val season: Int,
     private val number: Int
 ): ViewModel(), KoinComponent {
@@ -35,7 +35,7 @@ class EpisodeViewModel(
 
     private fun loadInitialData() = viewModelScope.launch {
         val episode = fetchEpisodeData(
-            seriesId = seriesId,
+            showId = showId,
             season = season,
             number = number
         ).firstOrNull()

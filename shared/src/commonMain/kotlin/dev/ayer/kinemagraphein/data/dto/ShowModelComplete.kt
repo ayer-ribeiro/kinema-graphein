@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ShowModelComplete(
-    val id: Int,
+    val id: Long,
     val name: String,
     val genres: List<String>,
     val schedule: ScheduleModel,
