@@ -15,7 +15,7 @@ class EpisodeRepositoryImpl: EpisodeRepository, KoinComponent {
 
     private val episodeStateFlow = MutableStateFlow<Episode?>(null)
 
-    override suspend fun fetch(showId: String, season: Int, number: Int): Flow<Episode?> {
+    override suspend fun fetch(showId: Long, season: Int, number: Int): Flow<Episode?> {
         val result = ktorfitApiService.getEpisode(
             showId = showId,
             season = season,

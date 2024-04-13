@@ -13,7 +13,7 @@ import org.koin.core.component.inject
 typealias State = EpisodeScreenState
 
 class EpisodeViewModel(
-    private val showId: String,
+    private val showId: Long,
     private val season: Int,
     private val number: Int
 ): ViewModel(), KoinComponent {

@@ -27,7 +27,7 @@ interface KtorfitApiService {
 
     @GET("shows/{showId}/episodebynumber")
     suspend fun getEpisode(
-        @Path("showId") showId: String,
+        @Path("showId") showId: Long,
         @Query("season") season: Int,
         @Query("number") number: Int
     ): EpisodeModel?
