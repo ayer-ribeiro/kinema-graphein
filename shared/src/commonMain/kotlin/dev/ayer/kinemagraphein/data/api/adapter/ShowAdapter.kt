@@ -24,6 +24,7 @@ fun SeasonsEmbedModel.toSeasonList(): List<Season> {
 
 fun ShowModelComplete.toShow(
     lastAccessed: Instant?,
+    lastModified: Instant?,
     isFavorite: Boolean
 ) = Show(
     id = id,
@@ -37,4 +38,5 @@ fun ShowModelComplete.toShow(
     schedule = schedule.toSchedule(),
     releaseDate = premiered,
     lastAccess = lastAccessed,
+    lastModified = lastModified,
 )

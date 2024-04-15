@@ -7,6 +7,7 @@ import dev.ayer.kinemagraphein.android.presenter.designsystem.media.mediaitemcov
 @Immutable
 sealed class HomeActionsIntent: ViewIntentActions {
     data class FavoriteClicked(val media: MediaItemCoverUiState): HomeActionsIntent()
+    data object ExpandFavoriteClicked: HomeActionsIntent()
     data class MediaClicked(val media: MediaItemCoverUiState): HomeActionsIntent()
 
     data object LoadMoreItems: HomeActionsIntent()

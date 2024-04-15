@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dev.ayer.kinemagraphein.android.presenter.theme.BrandRed
 
 @Composable
 fun FavoriteIcon(
@@ -28,13 +29,13 @@ fun FavoriteIcon(
         if (isFavorite) {
             Icon(
                 imageVector = Icons.Rounded.Favorite,
-                tint = MaterialTheme.colorScheme.primary,
+                tint = BrandRed,
                 contentDescription = null
             )
         } else {
             Icon(
                 imageVector = Icons.Rounded.FavoriteBorder,
-                tint = MaterialTheme.colorScheme.primary,
+                tint = BrandRed,
                 contentDescription = null
             )
         }

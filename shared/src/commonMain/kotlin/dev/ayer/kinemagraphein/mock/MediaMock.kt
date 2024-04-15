@@ -157,7 +157,8 @@ val underTheDomeMediaMock
             )
         ),
         originalImageUrl = null,
-        lastAccess = Clock.System.now()
+        lastAccess = Clock.System.now(),
+        lastModified = Clock.System.now(),
     )
 
 val personOfInterestMediaMock
@@ -181,6 +182,7 @@ val personOfInterestMediaMock
             "Science-Fiction",
         ),
         lastAccess = Clock.System.now(),
+        lastModified = Clock.System.now(),
         seasons = listOf(
             Season(
                 summary = "asd hausdhaosduhao sidauhsd ",

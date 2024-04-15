@@ -13,12 +13,12 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    onPrimary = Black,
-    secondary = PurpleGrey80,
-    onSecondary = Black,
-    tertiary = Pink80,
-    onTertiary = Black,
+    primary = BrandPurple,
+    onPrimary = White,
+    secondary = BrandBlue,
+    onSecondary = White,
+    tertiary = BrandRed,
+    onTertiary = White,
     background = Grey900,
     onBackground = White,
     surface = Grey800,
@@ -42,7 +42,7 @@ fun QuantumTheme(
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = true
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
         }
     }
 

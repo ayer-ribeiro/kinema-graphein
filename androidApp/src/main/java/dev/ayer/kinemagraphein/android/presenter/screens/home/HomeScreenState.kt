@@ -8,6 +8,7 @@ data class HomeScreenState(
     val isLoadingMoreItems: Boolean,
     val hasError: Boolean,
     val favorites: ImmutableList<MediaItemCoverUiState>,
+    val shouldShowMoreFavoriteButton: Boolean,
     val recent: ImmutableList<MediaItemCoverUiState>,
     val allMediaList: ImmutableList<MediaItemCoverUiState>
 )

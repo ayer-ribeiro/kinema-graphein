@@ -14,5 +14,6 @@ data class Show(
     override val genres: List<String>,
     override val schedule: Schedule,
     override val lastAccess: Instant?,
+    override val lastModified: Instant?,
     override val seasons: List<Season>,
 ): ShowBaseData, Coverable, SearchResult, MediaInfo, Favoritable

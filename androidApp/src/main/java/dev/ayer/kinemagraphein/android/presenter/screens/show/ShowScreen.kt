@@ -47,7 +47,8 @@ import dev.ayer.kinemagraphein.android.presenter.designsystem.base.Button
 import dev.ayer.kinemagraphein.android.presenter.designsystem.base.ButtonState
 import dev.ayer.kinemagraphein.android.presenter.designsystem.base.ButtonStyle
 import dev.ayer.kinemagraphein.android.presenter.designsystem.text.HtmlText
-import dev.ayer.kinemagraphein.android.presenter.navigation.navigateSingleTopEpisode
+import dev.ayer.kinemagraphein.android.presenter.navigation.destination.Destination
+import dev.ayer.kinemagraphein.android.presenter.navigation.navigateWith
 import dev.ayer.kinemagraphein.android.presenter.screens.show.tooling.ShowScreenStatePreviewParameterProvider
 import dev.ayer.kinemagraphein.android.presenter.theme.Grey300
 import dev.ayer.kinemagraphein.android.presenter.theme.Grey500
@@ -77,11 +78,11 @@ fun ShowScreen(
         viewModel.uiEvents.collect { event ->
             when (event) {
                 is ShowEvents.Navigation.NavigateToEpisodeDetails -> {
-                    navController.navigateSingleTopEpisode(
+                    Destination.Episode(
                         showId = showId,
-                        season = event.episode.season,
-                        number = event.episode.number
-                    )
+                        seasonNumber = event.episode.season,
+                        episodeNumber = event.episode.number
+                    ).navigateWith(navController)
                 }
             }
         }

@@ -1,6 +1,7 @@
 package dev.ayer.kinemagraphein.android.presenter.screens.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -11,8 +12,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.icons.Icons
@@ -31,11 +34,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import dev.ayer.kinemagraphein.android.R
 import dev.ayer.kinemagraphein.android.presenter.designsystem.LoadingProgress
 import dev.ayer.kinemagraphein.android.presenter.designsystem.base.Button
 import dev.ayer.kinemagraphein.android.presenter.designsystem.base.ButtonState
@@ -43,9 +50,16 @@ import dev.ayer.kinemagraphein.android.presenter.designsystem.media.MediaGridSec
 import dev.ayer.kinemagraphein.android.presenter.designsystem.media.MediaRowSection
 import dev.ayer.kinemagraphein.android.presenter.designsystem.media.mediaitemcover.MediaItemCover
 import dev.ayer.kinemagraphein.android.presenter.designsystem.media.mediaitemcover.MediaItemCoverUiState
+import dev.ayer.kinemagraphein.android.presenter.designsystem.media.mediaitemcover.MediaItemCoverUiStateListPreviewParameterProvider
 import dev.ayer.kinemagraphein.android.presenter.designsystem.media.mediaitemcover.MediaItemCoverUiStatePreviewParameterProvider
 import dev.ayer.kinemagraphein.android.presenter.designsystem.text.SectionTitle
-import dev.ayer.kinemagraphein.android.presenter.navigation.navigateSingleTopToShow
+import dev.ayer.kinemagraphein.android.presenter.imageresource.FavoriteIllustration
+import dev.ayer.kinemagraphein.android.presenter.imageresource.getContentDescription
+import dev.ayer.kinemagraphein.android.presenter.navigation.arguments.Argument.Companion.with
+import dev.ayer.kinemagraphein.android.presenter.navigation.destination.Destination
+import dev.ayer.kinemagraphein.android.presenter.navigation.navigate
+import dev.ayer.kinemagraphein.android.presenter.navigation.destination.with
+import dev.ayer.kinemagraphein.android.presenter.navigation.params.AppNavParam
 import dev.ayer.kinemagraphein.android.presenter.theme.QuantumTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -55,8 +69,10 @@ typealias SearchActiveStateChanged = HomeActionsIntent.SearchActiveStateChanged
 typealias SearchQueryCleared = HomeActionsIntent.SearchQueryCleared
 typealias SearchQueryChanged = HomeActionsIntent.SearchQueryChanged
 typealias FavoriteClicked = HomeActionsIntent.FavoriteClicked
+typealias ExpandFavoriteClicked = HomeActionsIntent.ExpandFavoriteClicked
 typealias SearchCalled = HomeActionsIntent.SearchCalled
 typealias MediaClicked = HomeActionsIntent.MediaClicked
+typealias LoadMoreItems = HomeActionsIntent.LoadMoreItems
 
 @Composable
 fun HomeScreen(
@@ -68,6 +84,7 @@ fun HomeScreen(
     val searchBarState by viewModel.uiSearchBarState.collectAsState()
     val recent = remember(screenState) { screenState.recent }
     val favorites = remember(screenState) { screenState.favorites }
+    val shouldShowFavoriteExpandButton = remember(screenState) { screenState.shouldShowMoreFavoriteButton }
     val allMediaList = remember(screenState) { screenState.allMediaList }
     val isLoadingMoreItems = remember(screenState) { screenState.isLoadingMoreItems }
     val isLoading = remember(screenState) { screenState.isLoading }
@@ -79,9 +96,17 @@ fun HomeScreen(
         viewModel.uiEvents.collect {
             when (it) {
                 is HomeEvents.Navigation.NavigateToShowDetails -> {
-                    navController.navigateSingleTopToShow(
-                        it.mediaId
-                    )
+                    Destination
+                        .Show(showId = it.mediaId)
+                        .with(navController)
+                        .navigate()
+                }
+
+                HomeEvents.Navigation.NavigateToFavoritesList -> {
+                    Destination
+                        .FavoriteList
+                        .with(navController)
+                        .navigate()
                 }
             }
         }
@@ -105,15 +130,19 @@ fun HomeScreen(
 
     // region Screen callbacks
     val onErrorTryAgainButtonClick: () -> Unit =
-        remember(screenState) { { viewModel.onAction(HomeActionsIntent.LoadMoreItems) } }
+        remember(screenState) { { viewModel.onAction(LoadMoreItems) } }
 
     val onShowClick: (MediaItemCoverUiState) -> Unit =
         remember(screenState) { { viewModel.onAction(MediaClicked(it)) } }
+
     val onFavoriteClick: (MediaItemCoverUiState) -> Unit =
         remember(screenState) { { viewModel.onAction(FavoriteClicked(it)) } }
 
+    val onExpandFavoritesClick: () -> Unit =
+        remember(screenState) { { viewModel.onAction(ExpandFavoriteClicked) } }
+
     val onLoadMoreButtonClick: () -> Unit =
-        remember(screenState) { { viewModel.onAction(HomeActionsIntent.LoadMoreItems) } }
+        remember(screenState) { { viewModel.onAction(LoadMoreItems) } }
     // endregion
 
     Column {
@@ -141,10 +170,12 @@ fun HomeScreen(
             recent = recent,
             favorites = favorites,
             allMediaList = allMediaList,
+            shouldShowFavoriteExpandButton = shouldShowFavoriteExpandButton,
             isLoadingMoreItems = isLoadingMoreItems,
             onShowClick = onShowClick,
             onFavoriteClick = onFavoriteClick,
-            onLoadMoreButtonClick = onLoadMoreButtonClick
+            onLoadMoreButtonClick = onLoadMoreButtonClick,
+            onExpandFavoritesClick = onExpandFavoritesClick
         )
     }
 }
@@ -153,10 +184,12 @@ fun HomeScreen(
 private fun ContentState(
     recent: ImmutableList<MediaItemCoverUiState>,
     favorites: ImmutableList<MediaItemCoverUiState>,
+    shouldShowFavoriteExpandButton: Boolean,
     allMediaList: ImmutableList<MediaItemCoverUiState>,
     isLoadingMoreItems: Boolean,
     onShowClick: (MediaItemCoverUiState) -> Unit,
     onFavoriteClick: (MediaItemCoverUiState) -> Unit,
+    onExpandFavoritesClick: () -> Unit,
     onLoadMoreButtonClick: () -> Unit
 ) {
     LazyColumn(
@@ -171,13 +204,13 @@ private fun ContentState(
             )
         }
 
-        if (favorites.isNotEmpty()) {
-            FavoriteSection(
-                favorites = favorites,
-                onShowClick = onShowClick,
-                onFavoriteClick = onFavoriteClick
-            )
-        }
+        FavoriteSection(
+            favorites = favorites,
+            shouldShowExpandButton = shouldShowFavoriteExpandButton,
+            onShowClick = onShowClick,
+            onFavoriteClick = onFavoriteClick,
+            onExpandFavoritesClick = onExpandFavoritesClick,
+        )
 
         if (allMediaList.isNotEmpty()) {
             AllMediaList(
@@ -269,10 +302,12 @@ private fun LazyListScope.AllMediaList(
 @Suppress("FunctionName")
 private fun LazyListScope.FavoriteSection(
     favorites: ImmutableList<MediaItemCoverUiState>,
-    onShowClick: (MediaItemCoverUiState) -> Unit = {},
-    onFavoriteClick: (MediaItemCoverUiState) -> Unit = {}
+    shouldShowExpandButton: Boolean,
+    onShowClick: (MediaItemCoverUiState) -> Unit,
+    onFavoriteClick: (MediaItemCoverUiState) -> Unit,
+    onExpandFavoritesClick: () -> Unit
 ) {
-    item {
+    stickyHeader {
         SectionTitle(
             text = "Favorites",
             modifier = Modifier
@@ -280,13 +315,58 @@ private fun LazyListScope.FavoriteSection(
                 .fillMaxWidth()
         )
     }
-    item {
-        MediaRowSection(
-            mediaItems = favorites,
-            onContentClick = onShowClick,
-            onFavoriteIconClick = onFavoriteClick
-        )
+    if (favorites.isEmpty()) {
+        item {
+            val context = LocalContext.current
+            Column(
+                modifier = Modifier.padding(vertical = 32.dp, horizontal = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                val painter = painterResource(id = FavoriteIllustration.drawableResId)
+                val contentDescription = context.getContentDescription(FavoriteIllustration)
+                Image(
+                    painter = painter,
+                    contentDescription = contentDescription,
+                    modifier = Modifier.width(width = 140.dp)
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+                Text(
+                    text = context
+                        .getString(R.string.home_favorite_empty_state_title),
+                    style = MaterialTheme.typography.titleMedium,
+                    textAlign = TextAlign.Center,
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.bodyMedium,
+                    text = context.getString(R.string.home_favorite_empty_state_message)
+                )
+            }
+        }
+    } else {
+        item {
+            MediaRowSection(
+                mediaItems = favorites,
+                onContentClick = onShowClick,
+                onFavoriteIconClick = onFavoriteClick
+            )
+        }
     }
+
+    if (shouldShowExpandButton) {
+        item {
+            Button(
+                text = "Show all favorites",
+                onClick = onExpandFavoritesClick,
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth()
+                    .defaultMinSize(minHeight = 48.dp)
+            )
+        }
+    }
+
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -296,7 +376,7 @@ private fun LazyListScope.RecentSection(
     onShowClick: (MediaItemCoverUiState) -> Unit = {},
     onFavoriteClick: (MediaItemCoverUiState) -> Unit = {}
 ) {
-    item {
+    stickyHeader {
         SectionTitle(
             text = "Recent",
             modifier = Modifier
@@ -395,7 +475,9 @@ fun ContentStatePreview(
                 isLoadingMoreItems = false,
                 onShowClick = {},
                 onFavoriteClick = {},
-                onLoadMoreButtonClick = {}
+                onLoadMoreButtonClick = {},
+                onExpandFavoritesClick = {},
+                shouldShowFavoriteExpandButton = true
             )
         }
     }
@@ -409,7 +491,7 @@ fun ContentStatePreview(
 )
 @Composable
 fun ContentStatePreview2(
-    @PreviewParameter(MediaItemCoverUiStatePreviewParameterProvider::class) showData: List<MediaItemCoverUiState>
+    @PreviewParameter(MediaItemCoverUiStateListPreviewParameterProvider::class) showData: ImmutableList<MediaItemCoverUiState>
 ) {
     QuantumTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
@@ -418,8 +500,10 @@ fun ContentStatePreview2(
                 favorites = emptyList<MediaItemCoverUiState>().toImmutableList(),
                 allMediaList = showData.subList(0, 6).toImmutableList(),
                 isLoadingMoreItems = true,
+                shouldShowFavoriteExpandButton = false,
                 onShowClick = {},
                 onFavoriteClick = {},
+                onExpandFavoritesClick = {},
                 onLoadMoreButtonClick = {}
             )
         }

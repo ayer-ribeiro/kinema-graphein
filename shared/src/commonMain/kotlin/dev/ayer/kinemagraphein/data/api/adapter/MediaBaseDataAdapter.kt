@@ -21,12 +21,14 @@ fun Shows.toMediaBaseData(): ShowBase = ShowBase(
         weekdays = schedule_days,
     ),
     lastAccess = last_access,
+    lastModified = last_modified
 )
 fun List<Shows>.toMediaBaseData(): List<ShowBase> = this.map { it.toMediaBaseData() }
 
 fun ShowModelBase.toMediaBaseData(
     isFavorite: Boolean,
-    lastAccess: Instant?
+    lastAccess: Instant?,
+    lastModified: Instant?
 ) = ShowBase(
     id = id,
     name = name,
@@ -41,6 +43,7 @@ fun ShowModelBase.toMediaBaseData(
         weekdays = schedule.days,
     ),
     lastAccess = lastAccess,
+    lastModified = lastModified
 )
 
 fun ShowBaseData.withNewFavoriteState(isFavorite: Boolean) = ShowBase(
@@ -54,4 +57,5 @@ fun ShowBaseData.withNewFavoriteState(isFavorite: Boolean) = ShowBase(
     genres = genres,
     schedule = schedule,
     lastAccess = lastAccess,
+    lastModified = lastModified
 )

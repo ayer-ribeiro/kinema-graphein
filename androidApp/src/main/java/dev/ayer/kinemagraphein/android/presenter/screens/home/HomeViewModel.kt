@@ -45,6 +45,7 @@ class HomeViewModel : ViewModel(), KoinComponent {
             favorites = persistentListOf(),
             recent = persistentListOf(),
             allMediaList = persistentListOf(),
+            shouldShowMoreFavoriteButton = false
         )
 
     private val _uiState = MutableStateFlow(initialState)
@@ -71,6 +72,7 @@ class HomeViewModel : ViewModel(), KoinComponent {
             is HomeActionsIntent.SearchCalled -> onSearchCalled(homeActions.query)
             is HomeActionsIntent.SearchQueryCleared -> onSearchQueryCleared()
             is HomeActionsIntent.LoadMoreItems -> loadMoreItems()
+            is HomeActionsIntent.ExpandFavoriteClicked -> onFavoriteExpandClicked()
         }
     }
 
@@ -120,16 +122,28 @@ class HomeViewModel : ViewModel(), KoinComponent {
         changeFavoriteState(media.id)
     }
 
+    private fun onFavoriteExpandClicked() = viewModelScope.launch((Dispatchers.Default)) {
+        val event = HomeEvents.Navigation.NavigateToFavoritesList
+        _uiEvents.emit(event)
+    }
+
     private suspend fun emitLoadingMoreItemsState() {
         val loadingState = _uiState.value.copy(isLoadingMoreItems = true)
         _uiState.emit(loadingState)
     }
 
     private fun collectFavorite() = viewModelScope.launch(Dispatchers.IO) {
-        loadFavorites().collect { favorite ->
+        loadFavorites().collect { userFavorite ->
+            val favoriteItems = userFavorite
+                .items
+                .map { it.asMediaItemCoverUiState() }
+                .toImmutableList()
+
             val newFavoriteState = _uiState.value.copy(
-                favorites = favorite.map { it.asMediaItemCoverUiState() }.toImmutableList()
+                favorites = favoriteItems,
+                shouldShowMoreFavoriteButton = userFavorite.containsAllFavorites
             )
+
             _uiState.emit(newFavoriteState)
         }
     }

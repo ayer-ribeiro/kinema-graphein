@@ -14,4 +14,5 @@ data class ShowBase(
     override val genres: List<String>,
     override val schedule: Schedule,
     override val lastAccess: Instant?,
+    override val lastModified: Instant?
 ): ShowBaseData, Coverable, SearchResult, Favoritable

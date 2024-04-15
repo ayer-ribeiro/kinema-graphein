@@ -14,4 +14,5 @@ interface ShowBaseData: Coverable, SearchResult {
     val genres: List<String>
     val schedule: Schedule
     val lastAccess: Instant?
+    val lastModified: Instant?
 }

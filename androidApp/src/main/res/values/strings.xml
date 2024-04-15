@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Kinema Graphein</string>
+
+    <string name="home_favorite_empty_state_title">You don\'t have favorite content yet</string>
+    <string name="home_favorite_empty_state_message">How about exploring and adding your favorite series and movies?</string>
+    <string name="home_favorite_illustration_content_description">How about exploring and adding your favorite series and movies?</string>
 </resources>

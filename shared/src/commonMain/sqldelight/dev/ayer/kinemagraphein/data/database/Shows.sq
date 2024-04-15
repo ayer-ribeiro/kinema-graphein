@@ -15,6 +15,7 @@ CREATE TABLE shows (
     original_image_url TEXT DEFAULT NULL,
     release_date TEXT DEFAULT NULL,
     last_access INTEGER AS Instant DEFAULT NULL,
+    last_modified INTEGER AS Instant DEFAULT NULL,
     is_favorite INTEGER AS Boolean NOT NULL DEFAULT 0
 );
 
@@ -45,9 +46,18 @@ WHERE
     summary LIKE (' %' || :query || ' %') OR
     genres LIKE (' %' || :query || ' %');
 
+getFavoritesCount:
+SELECT COUNT(*) FROM shows
+WHERE is_favorite <> 0;
+
 getFavorites:
 SELECT * FROM shows
 WHERE is_favorite <> 0;
+
+getFavoritesLimitedTo:
+SELECT * FROM shows
+WHERE is_favorite <> 0
+LIMIT :limit;
 
 getLastIdSync:
 SELECT MAX(id) AS lastId
@@ -77,6 +87,7 @@ INSERT OR IGNORE INTO shows(
     original_image_url,
     release_date,
     last_access,
+    last_modified,
     is_favorite
 )
 VALUES (
@@ -91,8 +102,14 @@ VALUES (
     :original_image_url,
     :release_date,
     :last_access,
+    :last_modified,
     : is_favorite
 ) ;
+
+updateLastModified:
+UPDATE shows
+SET last_modified = :time
+WHERE id = :id;
 
 updateFavorite:
 UPDATE shows

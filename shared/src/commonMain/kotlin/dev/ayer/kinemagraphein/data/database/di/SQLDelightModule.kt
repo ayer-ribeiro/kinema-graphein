@@ -25,6 +25,7 @@ internal val sqlDelightModule = module {
             genresAdapter = stringListAdapter,
             schedule_daysAdapter = stringListAdapter,
             last_accessAdapter = instantLongAdapter,
+            last_modifiedAdapter = instantLongAdapter
         )
     }
 

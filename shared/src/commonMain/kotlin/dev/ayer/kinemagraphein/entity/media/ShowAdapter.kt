@@ -11,6 +11,7 @@ fun Show.asShowBase(): ShowBase {
         originalImageUrl = this.originalImageUrl,
         genres = this.genres,
         schedule = this.schedule,
-        lastAccess = this.lastAccess
+        lastAccess = this.lastAccess,
+        lastModified = this.lastModified,
     )
 }

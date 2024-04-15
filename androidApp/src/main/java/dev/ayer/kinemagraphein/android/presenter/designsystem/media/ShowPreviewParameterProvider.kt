@@ -14,7 +14,6 @@ class ShowPreviewParameterProvider : PreviewParameterProvider<Show> {
     )
 }
 
-
 class ShowBasePreviewParameterProvider : PreviewParameterProvider<ShowBase> {
     override val values = sequenceOf(
         personOfInterestMediaMock,

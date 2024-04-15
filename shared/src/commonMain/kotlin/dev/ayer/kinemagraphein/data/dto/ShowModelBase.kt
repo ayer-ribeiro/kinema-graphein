@@ -9,6 +9,6 @@ data class ShowModelBase(
     val genres: List<String>,
     val schedule: ScheduleModel,
     val image: ImageDto? = null,
-    val summary: String,
+    val summary: String?,
     val premiered: String? = null,
 )
